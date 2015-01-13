@@ -44,19 +44,18 @@
 - name: Install FreeSwitch source code
   git: repo=https://freeswitch.org/stash/scm/fs/freeswitch.git
        dest=/usr/src/freeswitch
-       recursive=no
        version=v1.4
 
-- name: bootstrap
-  command: /usr/src/freeswitch/bootstrap.sh -j
+- name: bootstrap - take a coffee - it takes time --
+  shell: ./bootstrap.sh -j chdir=/usr/src/freeswitch/
 
 - name: copy template modules file
-  copy: src=../templates/modules.conf dst=/usr/src/freeswitch/modules.conf backup=yes
+  copy: src=../templates/modules.conf dest=/usr/src/freeswitch/modules.conf backup=yes
 
 - name: Freeswitch configuration
   command: /usr/src/freeswitch/configure
 
-- name: FreeSwitch make
+- name: FreeSwitch make - another coffee ! --
   command: /usr/src/freeswitch/make
 
 - name: FreeSwitch install
