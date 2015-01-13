@@ -43,8 +43,9 @@
 
 - name: Install FreeSwitch source code
   git: repo=https://freeswitch.org/stash/scm/fs/freeswitch.git
-       dest=/usr/src/
-       vesrion=v1.4
+       dest=/usr/src/freeswitch
+       recursive=no
+       version=v1.4
 
 - name: bootstrap
   command: /usr/src/freeswitch/bootstrap.sh -j

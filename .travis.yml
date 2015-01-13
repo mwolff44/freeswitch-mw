@@ -3,10 +3,15 @@ language: python
 python: "2.7"
 before_install:
   - sudo apt-get update -qq
-  - sudo apt-get install -qq python-apt python-pycurl
+  - sudo apt-get install -y python-apt python-pycurl
 install:
   - pip install ansible
 script:
+  # Prepare tests
   - echo localhost > inventory
+
+  # Check syntax
   - ansible-playbook --syntax-check -i inventory test.yml
+
+  # First run
   - ansible-playbook -i inventory test.yml --connection=local --sudo
