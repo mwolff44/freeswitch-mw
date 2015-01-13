@@ -53,16 +53,16 @@
   copy: src=../templates/modules.conf dest=/usr/src/freeswitch/modules.conf backup=yes
 
 - name: Freeswitch configuration
-  command: /usr/src/freeswitch/configure
+  shell: ./configure chdir=/usr/src/freeswitch/
 
 - name: FreeSwitch make - another coffee ! --
-  command: /usr/src/freeswitch/make
+  shell: ./make chdir=/usr/src/freeswitch/
 
 - name: FreeSwitch install
-  command: /usr/src/freeswitch/make install
+  shell: ./make install chdir=/usr/src/freeswitch/
 
 - name: FreeSwitch insrall sounds
-  command: /usr/src/freeswitch/make cd-sounds-install cd-moh-install
+  shell: ./make cd-sounds-install cd-moh-install chdir=/usr/src/freeswitch/
 
 - name: Add user "freeswitch"
   user: name=freeswitch groupe=daemon home=/usr/local/freeswitch
@@ -77,13 +77,13 @@
   file: path=/var/lib/freeswitch owner=freeswitch group=daemon mode="u=rwx,o=" state=directory recurse=yes
 
 - name: copy init script
-  copy: src=../templates/freeswitch.init dst=/etc/init.d/freeswitch
+  copy: src=../templates/freeswitch.init dest=/etc/init.d/freeswitch
 
 - name: Change ownership of FreeSwitch init script
   file: path=/etc/init.d/freeswitch owner=freeswitch group=daemon mode="+x"
 
 - name: update init scripts
-  command: update-rc.d freeswitch defaults
+  shell: update-rc.d freeswitch defaults
 
 - name: cli link
-  command: ln -s /usr/local/freeswitch/bin/fs_cli /bin/fs_cli
+  shell: ln -s /usr/local/freeswitch/bin/fs_cli /bin/fs_cli
