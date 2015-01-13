@@ -1,0 +1,4 @@
+---
+# handlers file for freeswitch-mw
+- name: restart freeswitch
+  service: name=freeswitch state=restarted
