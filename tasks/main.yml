@@ -56,13 +56,13 @@
   shell: ./configure chdir=/usr/src/freeswitch/
 
 - name: FreeSwitch make - another coffee ! --
-  shell: ./make chdir=/usr/src/freeswitch/
+  shell: make chdir=/usr/src/freeswitch/
 
 - name: FreeSwitch install
-  shell: ./make install chdir=/usr/src/freeswitch/
+  shell: make install chdir=/usr/src/freeswitch/
 
 - name: FreeSwitch insrall sounds
-  shell: ./make cd-sounds-install cd-moh-install chdir=/usr/src/freeswitch/
+  shell: make cd-sounds-install cd-moh-install chdir=/usr/src/freeswitch/
 
 - name: Add user "freeswitch"
   user: name=freeswitch groupe=daemon home=/usr/local/freeswitch
