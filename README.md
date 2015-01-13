@@ -6,7 +6,7 @@ Ansible role for FreeSwitch
 Requirements
 ------------
 
-- Tested on Ansible 1.4 or higher.
+- Tested on Ansible 1.8 or higher.
 
 Role Variables
 --------------

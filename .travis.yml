@@ -1,11 +1,13 @@
 ---
+os:
+  - linux
 language: python
 python: "2.7"
 before_install:
   - sudo apt-get update -qq
-  - sudo apt-get install -y python-apt python-pycurl
+  - sudo apt-get install -y python-apt python-pycurl libtiff5-dev
 install:
-  - pip install ansible
+  - pip install ansible=>1.8
 script:
   # Prepare tests
   - echo localhost > inventory
