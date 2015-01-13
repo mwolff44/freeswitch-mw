@@ -21,7 +21,7 @@
    - git-core
    - libjpeg-dev
    - libncurses5-dev
-   - libtool-bin
+   - libtool
    - make
    - python-dev
    - gawk
