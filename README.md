@@ -22,10 +22,10 @@ Dependencies
 
 No
 
-Example Playbook
-----------------
+Usage
+-----
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+Add `mwolff44.freeswitch-mw` to your roles ans setup the variables in your playbook file. Example :
 
     - hosts: all
 	  vars_files:
