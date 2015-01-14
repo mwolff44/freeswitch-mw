@@ -61,11 +61,11 @@
 - name: FreeSwitch install
   shell: make install chdir=/usr/src/freeswitch/
 
-- name: FreeSwitch insrall sounds
+- name: FreeSwitch install sounds
   shell: make cd-sounds-install cd-moh-install chdir=/usr/src/freeswitch/
 
 - name: Add user "freeswitch"
-  user: name=freeswitch groupe=daemon home=/usr/local/freeswitch
+  user: name=freeswitch group=daemon home=/usr/local/freeswitch
 
 - name: Change ownership of FreeSwitch installation
   file: path=/usr/local/freeswitch/ owner=freeswitch group=daemon mode="ug=rwX,o=" state=directory recurse=yes
@@ -80,7 +80,7 @@
   copy: src=../templates/freeswitch.init dest=/etc/init.d/freeswitch
 
 - name: Change ownership of FreeSwitch init script
-  file: path=/etc/init.d/freeswitch owner=freeswitch group=daemon mode="+x"
+  file: path=/etc/init.d/freeswitch owner=freeswitch group=daemon mode="a+x"
 
 - name: update init scripts
   shell: update-rc.d freeswitch defaults
