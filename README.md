@@ -1,5 +1,9 @@
-Freeswitch-mw [![Build Status](https://travis-ci.org/mwolff44/freeswitch-mw.png)](https://travis-ci.org/mwolff44/freeswitch-mw) 
+Freeswitch-mw
 =============
+
+[![Build Status](https://travis-ci.org/mwolff44/freeswitch-mw.png)](https://travis-ci.org/mwolff44/freeswitch-mw)
+[![Galaxy](http://img.shields.io/badge/galaxy-Stouts.freeswitch-mw-blue.svg?style=flat-square)](https://galaxy.ansible.com/list#/roles/2582)
+
 
 Ansible role for FreeSwitch
 
