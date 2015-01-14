@@ -11,7 +11,7 @@ Requirements
 Role Variables
 --------------
 
-ToDo
+Nothing at this time.
 
 Dependencies
 ------------
@@ -23,9 +23,15 @@ Example Playbook
 
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
-    - hosts: localhost
-      roles:
-         - { role: username.rolename, x: 42 }
+    - hosts: all
+	  vars_files:
+	    - 'defaults/main.yml'
+	  tasks:
+	    - include: 'tasks/main.yml'
+	  handlers:
+	    - include: 'handlers/main.yml'
+
+
 
 License
 -------
