@@ -65,7 +65,7 @@
   shell: make cd-sounds-install cd-moh-install chdir={{freeswitch_sources_path}}
 
 - name: Add user "freeswitch"
-  user: name=freeswitch group=daemon home={{freeswitch_path}}
+  user: name={{freeswitch_owner}} group={{freeswitch_group}} home={{freeswitch_path}}
 
 - name: Change ownership of FreeSwitch installation
   file: path={{freeswitch_path}} owner={{freeswitch_owner}} group={{freeswitch_group}} mode="ug=rwX,o=" state=directory recurse=yes

@@ -7,4 +7,4 @@ freeswitch_owner: freeswitch
 freeswitch_group: daemon
 freeswitch_modules_template: ../templates/modules.conf #modules.conf file used for FreeSwitch compilation
 freeswitch_init_template: ../templates/freeswitch.init #init script template
-freeswitch_enable_core_pgsql: no # yes if enable --enable-core-pgsql-support
+freeswitch_configure_command: configure # freeswicth configure command - yiu can add option
