@@ -11,7 +11,7 @@ Requirements
 Role Variables
 --------------
 
-ToDo
+The role variables and default values.
 
 Dependencies
 ------------
