@@ -53,12 +53,7 @@
   copy: src={{freeswitch_modules_template}} dest=/usr/src/freeswitch/modules.conf backup=yes
 
 - name: Freeswitch configuration
-  shell: ./configure chdir={{freeswitch_sources_path}}
-  when: freeswitch_enable_core_pgsql == "no"
-
-- name: Freeswitch configuration
-  shell: ./configure --enable-core-pgsql-support chdir={{freeswitch_sources_path}}
-  when: freeswitch_enable_core_pgsql == "yes"
+  shell: ./{{freeswitch_configure_command}} chdir={{freeswitch_sources_path}}
 
 - name: FreeSwitch make - another coffee ! --
   shell: make chdir={{freeswitch_sources_path}}
@@ -70,13 +65,13 @@
   shell: make cd-sounds-install cd-moh-install chdir={{freeswitch_sources_path}}
 
 - name: Add user "freeswitch"
-  user: name=freeswitch group=daemon home=/usr/local/freeswitch
+  user: name=freeswitch group=daemon home={{freeswitch_path}}
 
 - name: Change ownership of FreeSwitch installation
-  file: path=/usr/local/freeswitch/ owner={{freeswitch_owner}} group={{freeswitch_group}} mode="ug=rwX,o=" state=directory recurse=yes
+  file: path={{freeswitch_path}} owner={{freeswitch_owner}} group={{freeswitch_group}} mode="ug=rwX,o=" state=directory recurse=yes
 
 - name: Change ownership of FreeSwitch binary files
-  file: path=/usr/local/freeswitch/bin/ owner={{freeswitch_owner}} group={{freeswitch_group}} mode="u=rwx,g=rx" state=directory recurse=yes
+  file: path={{freeswitch_path}}bin/ owner={{freeswitch_owner}} group={{freeswitch_group}} mode="u=rwx,g=rx" state=directory recurse=yes
 
 - name: Create /var/lib/freeswitch
   file: path=/var/lib/freeswitch owner={{freeswitch_owner}} group={{freeswitch_group}} mode="u=rwx,o=" state=directory recurse=yes
@@ -91,4 +86,4 @@
   shell: update-rc.d freeswitch defaults
 
 - name: cli link
-  file: src=/usr/local/freeswitch/bin/fs_cli dest=/bin/fs_cli state=link
+  file: src={{freeswitch_path}}bin/fs_cli dest=/bin/fs_cli state=link
