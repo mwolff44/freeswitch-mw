@@ -43,44 +43,49 @@
 
 - name: Install FreeSwitch source code
   git: repo=https://freeswitch.org/stash/scm/fs/freeswitch.git
-       dest=/usr/src/freeswitch
-       version=v1.4
+       dest={{freeswitch_sources_path}}
+       version={{freeswitch_version}}
 
 - name: bootstrap - take a coffee - it takes time --
-  shell: ./bootstrap.sh -j chdir=/usr/src/freeswitch/
+  shell: ./bootstrap.sh -j chdir={{freeswitch_sources_path}}
 
 - name: copy template modules file
-  copy: src=../templates/modules.conf dest=/usr/src/freeswitch/modules.conf backup=yes
+  copy: src={{freeswitch_modules_template}} dest=/usr/src/freeswitch/modules.conf backup=yes
 
 - name: Freeswitch configuration
-  shell: ./configure chdir=/usr/src/freeswitch/
+  shell: ./configure chdir={{freeswitch_sources_path}}
+  when: {{freeswitch_enable_core_pgsql}} == "no"
+
+- name: Freeswitch configuration
+  shell: ./configure --enable-core-pgsql-support chdir={{freeswitch_sources_path}}
+  when: {{freeswitch_enable_core_pgsql}} == "yes"
 
 - name: FreeSwitch make - another coffee ! --
-  shell: make chdir=/usr/src/freeswitch/
+  shell: make chdir={{freeswitch_sources_path}}
 
 - name: FreeSwitch install
-  shell: make install chdir=/usr/src/freeswitch/
+  shell: make install chdir={{freeswitch_sources_path}}
 
 - name: FreeSwitch install sounds
-  shell: make cd-sounds-install cd-moh-install chdir=/usr/src/freeswitch/
+  shell: make cd-sounds-install cd-moh-install chdir={{freeswitch_sources_path}}
 
 - name: Add user "freeswitch"
   user: name=freeswitch group=daemon home=/usr/local/freeswitch
 
 - name: Change ownership of FreeSwitch installation
-  file: path=/usr/local/freeswitch/ owner=freeswitch group=daemon mode="ug=rwX,o=" state=directory recurse=yes
+  file: path=/usr/local/freeswitch/ owner={{freeswitch_owner}} group={{freeswitch_group}} mode="ug=rwX,o=" state=directory recurse=yes
 
 - name: Change ownership of FreeSwitch binary files
-  file: path=/usr/local/freeswitch/bin/ owner=freeswitch group=daemon mode="u=rwx,g=rx" state=directory recurse=yes
+  file: path=/usr/local/freeswitch/bin/ owner={{freeswitch_owner}} group={{freeswitch_group}} mode="u=rwx,g=rx" state=directory recurse=yes
 
 - name: Create /var/lib/freeswitch
-  file: path=/var/lib/freeswitch owner=freeswitch group=daemon mode="u=rwx,o=" state=directory recurse=yes
+  file: path=/var/lib/freeswitch owner={{freeswitch_owner}} group={{freeswitch_group}} mode="u=rwx,o=" state=directory recurse=yes
 
 - name: copy init script
-  copy: src=../templates/freeswitch.init dest=/etc/init.d/freeswitch
+  copy: src={{freeswitch_init_template}} dest=/etc/init.d/freeswitch
 
 - name: Change ownership of FreeSwitch init script
-  file: path=/etc/init.d/freeswitch owner=freeswitch group=daemon mode="a+x"
+  file: path=/etc/init.d/freeswitch owner={{freeswitch_owner}} group={{freeswitch_group}} mode="a+x"
 
 - name: update init scripts
   shell: update-rc.d freeswitch defaults
