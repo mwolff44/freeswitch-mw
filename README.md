@@ -1,31 +1,45 @@
-Role Name
-=========
+Freeswitch-mw
+=============
+
+[![Build Status](https://travis-ci.org/mwolff44/freeswitch-mw.png)](https://travis-ci.org/mwolff44/freeswitch-mw)
+[![Galaxy](http://img.shields.io/badge/galaxy-mwolff44.freeswitch--mw-blue.svg?style=flat-square)](https://galaxy.ansible.com/list#/roles/2582)
+
 
 Ansible role for FreeSwitch
 
 Requirements
 ------------
 
-- Tested on Ansible 1.4 or higher.
+- Tested on Ansible 1.8 or higher.
 
 Role Variables
 --------------
 
+<<<<<<< HEAD
 The role variables and default values.
+=======
+Nothing at this time.
+>>>>>>> master
 
 Dependencies
 ------------
 
 No
 
-Example Playbook
-----------------
+Usage
+-----
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+Add `mwolff44.freeswitch-mw` to your roles ans setup the variables in your playbook file. Example :
 
-    - hosts: localhost
-      roles:
-         - { role: username.rolename, x: 42 }
+    - hosts: all
+	  vars_files:
+	    - 'defaults/main.yml'
+	  tasks:
+	    - include: 'tasks/main.yml'
+	  handlers:
+	    - include: 'handlers/main.yml'
+
+
 
 License
 -------

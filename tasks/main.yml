@@ -22,6 +22,7 @@
    - libjpeg-dev
    - libncurses5-dev
    - libtool-bin
+   - libtool
    - make
    - python-dev
    - gawk
@@ -45,27 +46,39 @@
   git: repo=https://freeswitch.org/stash/scm/fs/freeswitch.git
        dest=/usr/src/
        vesrion=v1.4
+       dest=/usr/src/freeswitch
+       version=v1.4
 
 - name: bootstrap
   command: /usr/src/freeswitch/bootstrap.sh -j
+- name: bootstrap - take a coffee - it takes time --
+  shell: ./bootstrap.sh -j chdir=/usr/src/freeswitch/
 
 - name: copy template modules file
   copy: src=../templates/modules.conf dst=/usr/src/freeswitch/modules.conf backup=yes
+  copy: src=../templates/modules.conf dest=/usr/src/freeswitch/modules.conf backup=yes
 
 - name: Freeswitch configuration
   command: /usr/src/freeswitch/configure
+  shell: ./configure chdir=/usr/src/freeswitch/
 
 - name: FreeSwitch make
   command: /usr/src/freeswitch/make
+- name: FreeSwitch make - another coffee ! --
+  shell: make chdir=/usr/src/freeswitch/
 
 - name: FreeSwitch install
   command: /usr/src/freeswitch/make install
+  shell: make install chdir=/usr/src/freeswitch/
 
 - name: FreeSwitch insrall sounds
   command: /usr/src/freeswitch/make cd-sounds-install cd-moh-install
+- name: FreeSwitch install sounds
+  shell: make cd-sounds-install cd-moh-install chdir=/usr/src/freeswitch/
 
 - name: Add user "freeswitch"
   user: name=freeswitch groupe=daemon home=/usr/local/freeswitch
+  user: name=freeswitch group=daemon home=/usr/local/freeswitch
 
 - name: Change ownership of FreeSwitch installation
   file: path=/usr/local/freeswitch/ owner=freeswitch group=daemon mode="ug=rwX,o=" state=directory recurse=yes
@@ -78,12 +91,15 @@
 
 - name: copy init script
   copy: src=../templates/freeswitch.init dst=/etc/init.d/freeswitch
+  copy: src=../templates/freeswitch.init dest=/etc/init.d/freeswitch
 
 - name: Change ownership of FreeSwitch init script
   file: path=/etc/init.d/freeswitch owner=freeswitch group=daemon mode="+x"
+  file: path=/etc/init.d/freeswitch owner=freeswitch group=daemon mode="a+x"
 
 - name: update init scripts
   command: update-rc.d freeswitch defaults
+  shell: update-rc.d freeswitch defaults
 
 - name: cli link
   file: src=/usr/local/freeswitch/bin/fs_cli dest=/bin/fs_cli state=link
