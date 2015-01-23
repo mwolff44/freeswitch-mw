@@ -54,11 +54,11 @@
 
 - name: Freeswitch configuration
   shell: ./configure chdir={{freeswitch_sources_path}}
-  when: {{freeswitch_enable_core_pgsql}} == "no"
+  when: freeswitch_enable_core_pgsql == "no"
 
 - name: Freeswitch configuration
   shell: ./configure --enable-core-pgsql-support chdir={{freeswitch_sources_path}}
-  when: {{freeswitch_enable_core_pgsql}} == "yes"
+  when: freeswitch_enable_core_pgsql == "yes"
 
 - name: FreeSwitch make - another coffee ! --
   shell: make chdir={{freeswitch_sources_path}}
