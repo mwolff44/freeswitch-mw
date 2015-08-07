@@ -89,7 +89,9 @@
   file: src={{freeswitch_path}}bin/fs_cli dest=/bin/fs_cli state=link
 
 - name: log files management
-  file: src={{ freeswicth_log_rotate_script }} dest=/etc/cron.daily/freeswitch_log_rotation mode="a+x"
+  copy: src={{ freeswicth_log_rotate_script }} dest=/etc/cron.daily/freeswitch_log_rotation
+
+- file: path=/etc/cron.daily/freeswitch_log_rotation mode="a+x"
 
 - name: install fail2ban
   apt: name=fail2ban state=latest
