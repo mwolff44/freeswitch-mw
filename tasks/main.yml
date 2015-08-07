@@ -93,6 +93,7 @@
 
 - name: install fail2ban
   apt: name=fail2ban state=latest
-  copy: src={{ fail2ban_local_jail }} dest={{ fail2ban_local_jail_file }}
-  copy: src={{ fail2ban_fs }} dest={{ fail2ban_filter_dir }}/freeswitch.conf
-  copy: src={{ fail2ban_dos_fs }} dest={{ fail2ban_filter_dir }}/freeswitch-dos.conf
+
+-  copy: src={{ fail2ban_local_jail }} dest={{ fail2ban_local_jail_file }}
+-  copy: src={{ fail2ban_fs }} dest={{ fail2ban_filter_dir }}/freeswitch.conf
+-  copy: src={{ fail2ban_dos_fs }} dest={{ fail2ban_filter_dir }}/freeswitch-dos.conf
