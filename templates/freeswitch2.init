@@ -13,11 +13,12 @@
 ### END INIT INFO
 
 # Author: Travis Cross <tc@traviscross.com>
+# Modifications: Mathias WOLFF <mathiaswolff@mac.com>
 
-PATH=/sbin:/usr/sbin:/bin:/usr/bin
+PATH=/sbin:/usr/sbin:/bin:/usr/bin:/usr/local/bin
 DESC=freeswitch
 NAME=freeswitch
-DAEMON=/usr/bin/freeswitch
+DAEMON=/usr/local/freeswitch/bin/$NAME
 USER=freeswitch
 DAEMON_ARGS="-u $USER -ncwait"
 CONFDIR=/etc/$NAME
@@ -31,6 +32,27 @@ WORKDIR=/var/lib/$NAME
 . /lib/init/vars.sh
 . /lib/lsb/init-functions
 
+#
+# Function that sets ulimit values for the daemon
+#
+do_setlimits() {
+        ulimit -c unlimited
+        ulimit -d unlimited
+        ulimit -f unlimited
+        ulimit -i unlimited
+        ulimit -n 999999
+        ulimit -q unlimited
+        ulimit -u unlimited
+        ulimit -v unlimited
+        ulimit -x unlimited
+        ulimit -s 240
+        ulimit -l unlimited
+        return 0
+}
+
+#
+# Function that starts the daemon/service
+#
 do_start() {
   if ! [ -f $CONFDIR/freeswitch.xml ]; then
     echo "$NAME is not configured so not starting.">&2

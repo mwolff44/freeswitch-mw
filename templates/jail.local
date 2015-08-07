@@ -1,0 +1,30 @@
+[freeswitch-tcp]
+enabled  = true
+port     = 5060,5061,5080,5081
+protocol = tcp
+filter   = freeswitch
+logpath  = /var/log/freeswitch.log
+maxretry = 10
+action   = iptables-allports[name=freeswitch, protocol=all]
+#           sendmail-whois[name=FreeSwitch, dest=root, sender=chahid.ouarzoun@gmail.com]
+
+[freeswitch-udp]
+enabled  = true
+port     = 5060,5061,5080,5081
+protocol = udp
+filter   = freeswitch
+logpath  = /var/log/freeswitch.log
+maxretry = 10
+action   = iptables-allports[name=freeswitch, protocol=all]
+#           sendmail-whois[name=FreeSwitch, dest=root, sender=chahid.ouarzoun@gmail.com]
+
+[freeswitch-dos]
+enabled = true
+port = 5060,5061,5080,5081
+protocol = udp
+filter = freeswitch-dos
+logpath = /var/log/freeswitch.log
+action = iptables-allports[name=freeswitch-dos, protocol=all]
+maxretry = 50
+findtime = 30
+bantime  = 6000

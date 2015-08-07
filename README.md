@@ -26,7 +26,14 @@ The role variables and default values.
 	freeswitch_group: daemon
 	freeswitch_modules_template: ../templates/modules.conf #modules.conf file used for FreeSwitch compilation
 	freeswitch_init_template: ../templates/freeswitch.init #init script template
-	freeswitch_configure_command: configure # freeswicth configure command - yiu can add option
+	freeswitch_configure_command: configure # freeswicth configure command - you can add option
+	freeswicth_log_rotate_script: ../templates/freeswitch_log_rotation # log management script
+    freeswitch_log_conf_template: ../template/logfile.conf.xml # freeswitch log configuration file template
+    fail2ban_local_jail_file: /etc/fail2ban/jail.local # fail2ban jail file for FreeSwitch
+    fail2ban_filter_dir: /etc/fail2ban/filter.d # fail2ban filter directory
+    fail2ban_local_jail: ../templates/jail.local # fail2ban template jail for FreeSwitch
+    fail2ban_fs: ../templates/freeswitch.conf # Fail2ban filter template for FreeSwitch
+    fail2ban_dos_fs: ../templates/freeswitch-dos.conf # Fail2ban filter template for freeswitch dos
 
 
 Dependencies

@@ -2,3 +2,5 @@
 # handlers file for freeswitch-mw
 - name: restart freeswitch
   service: name=freeswitch state=restarted
+- name: restart fail2ban
+  service: name=fail2ban state=restarted

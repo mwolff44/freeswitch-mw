@@ -87,3 +87,12 @@
 
 - name: cli link
   file: src={{freeswitch_path}}bin/fs_cli dest=/bin/fs_cli state=link
+
+- name: log files management
+  file: src={{ freeswicth_log_rotate_script }} dest=/etc/cron.daily/freeswitch_log_rotation mode="a+x"
+
+- name: install fail2ban
+  apt: name=fail2ban state=latest
+  copy: src={{ fail2ban_local_jail }} dest={{ fail2ban_local_jail_file }}
+  copy: src={{ fail2ban_fs }} dest={{ fail2ban_filter_dir }}/freeswitch.conf
+  copy: src={{ fail2ban_dos_fs }} dest={{ fail2ban_filter_dir }}/freeswitch-dos.conf
