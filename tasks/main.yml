@@ -40,6 +40,12 @@
    - libedit-dev
    - libldns-dev
    - libpq-dev
+   
+- name: Specific Debian flavored systems"
+  apt: name={{ item }} update_cache=yes
+  with_items:
+   - libtool-bin
+  when: ansible_os_family == "Debian"
 
 - name: Install FreeSwitch source code
   git: repo=https://freeswitch.org/stash/scm/fs/freeswitch.git
