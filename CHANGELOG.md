@@ -1,6 +1,12 @@
 Changelog
 =========
 
+v1.3
+----
+- Add Jessie compatibility
+- Correct typo in default modules.conf file
+- Add mod_curl appilcation in default modules.conf file
+
 v1.2
 ----
 - Add Fail2ban : installation and configuration
