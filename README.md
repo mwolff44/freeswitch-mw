@@ -12,6 +12,14 @@ Requirements
 
 - Tested on Ansible 1.8 or higher.
 
+Ansible installation via pip
+----------------------------
+
+::
+
+	sudo apt-get install -y python-pip python-apt python-pycurl libtiff5-dev git
+	sudo pip install ansible
+
 Role Variables
 --------------
 
