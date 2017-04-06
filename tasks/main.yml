@@ -14,7 +14,7 @@
     filename: 'freeswitch'
 
 - name: Install FreeSwitch server
-  action: apt name=freeswitch-video-deps-most update_cache=yes
+  apt: name=freeswitch-video-deps-most update_cache=yes
 
 # Installation from sources
 - name: Install Prerequisites freeswitch packages
