@@ -1,13 +1,30 @@
 ---
-os:
-  - linux
 language: python
 python: "2.7"
-before_install:
-  - sudo apt-get update -qq
-  - sudo apt-get install -y python-apt python-pycurl libtiff5-dev
+
+sudo: true
+dist: trusty
+
+addons:
+  apt:
+    packages:
+    - python-pip
+    - python-apt
+
+services:
+  - docker
+
 install:
+  # Install ansible
   - pip install ansible>=1.8
+  
+  # don't use travis virtualenv, as ansible does not do so either
+  # and couldn't find the docker package that way
+  - sudo /usr/bin/pip install docker-py
+  
+  # Create ansible.cfg with correct roles_path
+  - printf '[defaults]\nroles_path=../' >ansible.cfg
+
 script:
   # Ansible version
   - ansible --version
@@ -20,3 +37,6 @@ script:
 
   # First run
   - ansible-playbook -i inventory test.yml --connection=local --sudo
+
+notifications:
+  webhooks: https://galaxy.ansible.com/api/v1/notifications/
