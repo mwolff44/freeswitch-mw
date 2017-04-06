@@ -15,7 +15,6 @@ Requirements
 Ansible installation via pip
 ----------------------------
 
-::
 
 	sudo apt-get install -y python-pip python-apt python-pycurl libtiff5-dev git
 	sudo pip install ansible
@@ -26,7 +25,6 @@ Role Variables
 
 The role variables and default values.
 
-::
 
 	freeswitch_version: 1.6 #FreeSwitch version. Becareful, only tested with 1.4 version for the time being
 	freeswitch_sources_path: /usr/src/freeswitch/ #Path to the FreeSwitch source directory
@@ -55,7 +53,6 @@ Usage
 
 Add `mwolff44.freeswitch-mw` to your roles ans setup the variables in your playbook file. Example :
 
-::
 
     - hosts: all
 	  vars_files:
