@@ -5,8 +5,6 @@ language: python
 python: "2.7"
 before_install:
   - sudo apt-get update -qq
-  - sudo add-apt-repository -y "deb http://archive.ubuntu.com/ubuntu/ trusty main universe"
-  - sudo apt-get update -qq
   - sudo apt-get install -y python-apt python-pycurl libtiff5-dev
 install:
   - pip install ansible>=1.8
