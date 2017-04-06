@@ -63,8 +63,8 @@
 - name: Install FreeSwitch source code
   git:
     repo: 'https://freeswitch.org/stash/scm/fs/freeswitch.git'
-    dest: {{freeswitch_sources_path}}
-    version: {{freeswitch_version}}
+    dest: "{{freeswitch_sources_path}}"
+    version: "{{freeswitch_version}}"
 
 - name: bootstrap - take a coffee - it takes time --
   shell: ./bootstrap.sh -j chdir={{freeswitch_sources_path}}
