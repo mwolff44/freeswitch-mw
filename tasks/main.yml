@@ -98,7 +98,9 @@
 - name: log files management
   copy: src={{ freeswicth_log_rotate_script }} dest=/etc/cron.daily/freeswitch_log_rotation
 
-- shell: touch /var/log/freeswitch.log
+- file:
+    path: /var/log/freeswitch.log
+    state: touch
 
 - file: path=/var/log/freeswitch.log owner={{freeswitch_owner}} group={{freeswitch_group}}
 
