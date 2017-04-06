@@ -11,6 +11,9 @@ before_install:
 install:
   - pip install ansible>=1.8
 script:
+  # Ansible version
+  - ansible --version
+  
   # Prepare tests
   - echo localhost > inventory
 
