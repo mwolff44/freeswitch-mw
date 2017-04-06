@@ -1,17 +1,24 @@
 ---
 # tasks file for freeswitch-mw
-#- name: Add FreeSwitch apt repository (1.4)
-#  apt_repository: repo='deb http://files.freeswitch.org/repo/deb/debian/ wheezy main'
 
-#- name: Add FreeSwitch Repo Signing key
-#  apt_key: url=http://files.freeswitch.org/repo/deb/debian/freeswitch_archive_g0.pub
+- name: Add FreeSwitch Repo Signing key
+  apt_key: url=http://files.freeswitch.org/repo/deb/debian/freeswitch_archive_g0.pub
 
-#- name: Install FreeSwitch server
-#  action: apt name=freeswitch-meta-vanilla update_cache=yes
+- name: Update APT Cache
+  apt: update_cache=yes
+
+- name: Add FreeSwitch apt repository (1.6)
+  apt_repository:
+    repo: deb http://files.freeswitch.org/repo/deb/freeswitch-1.6/ jessie main
+    state: present
+    filename: 'freeswitch'
+
+- name: Install FreeSwitch server
+  action: apt name=freeswitch-video-deps-most update_cache=yes
 
 # Installation from sources
-- name: Install FreeSwitch dependencies
-  apt: name={{ item }} update_cache=yes
+- name: Install Prerequisites freeswitch packages
+  apt: state=present pkg={{ item }}
   with_items:
    - autoconf
    - automake
@@ -48,10 +55,16 @@
   when: (ansible_distribution == "Debian" and ansible_distribution_major_version == "7") or
         (ansible_distribution == "Debian" and ansible_distribution_major_version == "8")
 
+- git_config:
+    #name: alias.ci
+    scope: global
+    value: pull.rebase
+
 - name: Install FreeSwitch source code
-  git: repo=https://freeswitch.org/stash/scm/fs/freeswitch.git
-       dest={{freeswitch_sources_path}}
-       version={{freeswitch_version}}
+  git:
+    repo: 'https://freeswitch.org/stash/scm/fs/freeswitch.git'
+    dest: {{freeswitch_sources_path}}
+    version: {{freeswitch_version}}
 
 - name: bootstrap - take a coffee - it takes time --
   shell: ./bootstrap.sh -j chdir={{freeswitch_sources_path}}
