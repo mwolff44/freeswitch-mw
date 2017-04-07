@@ -17,8 +17,15 @@ addons:
     packages:
     - python-pip
     - python-apt
+    - build-essential
+    - libssl-dev
+    - libffi-dev
+    - python-dev
 
 install:
+  # Upgrade to the latest version of the Cryptography module
+  - pip install cryptography --upgrade
+  
   # Install ansible
   - pip install ansible>=1.8
   
