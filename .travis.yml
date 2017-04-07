@@ -27,14 +27,14 @@ install:
   - pip install -U pip
   
   # Upgrade to the latest version of the Cryptography module
-  - pip install cryptography --upgrade
+  #- pip install cryptography --upgrade
   
   # Install ansible
-  - pip install ansible>=1.8
+  - pip install ansible
   
   # don't use travis virtualenv, as ansible does not do so either
   # and couldn't find the docker package that way
-  - sudo /usr/bin/pip install docker-py
+  #- sudo /usr/bin/pip install docker-py
   
   # Create ansible.cfg with correct roles_path
   - printf '[defaults]\nroles_path=../' >ansible.cfg
