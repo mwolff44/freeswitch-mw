@@ -1,6 +1,15 @@
 ---
 # handlers file for freeswitch-mw
+- name: Change Config
+  replace: dest=/etc/freeswitch/autoload_configs/modules.conf.xml regexp='load module="mod_g729"' replace='load module="mod_bcg729"'
+  notify: Freeswitch reload
+
+- name: Freeswitch reload
+  command: "fs_cli -x reloadxml && fs_cli -x load module mod_bcg729"
+
 - name: restart freeswitch
   service: name=freeswitch state=restarted
+
 - name: restart fail2ban
   service: name=fail2ban state=restarted
+  when: fail2ban_install == true

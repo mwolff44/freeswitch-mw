@@ -1,0 +1,79 @@
+# tasks file for Debian flavour
+
+- name: Add FreeSwitch Repo Signing key
+  apt_key: url=https://files.freeswitch.org/repo/deb/debian/freeswitch_archive_g0.pub state=present
+
+- name: Add FreeSwitch apt repository (1.6)
+  apt_repository:
+    repo: deb http://files.freeswitch.org/repo/deb/freeswitch-1.6/ jessie main
+    state: present
+    filename: 'freeswitch'
+
+- name: Update APT Cache
+  apt: update_cache=yes
+
+- name: Install FreeSwitch
+  apt: "name={{ item }} state=present"
+  with_items: "{{ freeswitch_packages }}
+
+- name: Install required packages for mod_bcg729
+  apt: name={{item}} state=latest
+  with_items:
+    - automake
+    - autoconf
+    - pkg-config
+    - libtool
+    - build-essential
+    - libortp-dev
+    - libfreeswitch-dev
+  when: freeswitch_g729_install == true
+
+- name: Check if mod_bcg729 is installed
+  stat: path=/usr/lib/freeswitch/mod/mod_bcg729.so
+  register: mod_bcg729_installed and freeswitch_g729_install == true
+
+
+- name: Download mod_bcg729
+  git: repo=https://github.com/xadhoom/mod_bcg729 dest=/usr/local/src/mod_bcg729
+  when: mod_bcg729_installed.stat.exists == false and freeswitch_g729_install == true
+
+- name: Build mod_bcg729 
+  command: "{{ item }} chdir=/usr/local/src/mod_bcg729"
+  with_items:
+    - make
+    - make install    
+  notify:
+    - Change Config
+  when: mod_bcg729_installed.stat.exists == false and freeswitch_g729_install == true
+
+#- name: Copy FreeSwitch config after back up default one
+#mv /etc/freeswitch /etc/freeswitch.orig
+#mkdir /etc/freeswitch
+#cp -R /var//resources/templates/conf/* /etc/freeswitch
+
+- name: install fail2ban
+  apt: name=fail2ban state=latest
+  when: fail2ban_install == true
+
+- copy: src={{ fail2ban_local_jail }} dest={{ fail2ban_local_jail_file }}
+  when: fail2ban_install == true
+- copy: src={{ fail2ban_fs }} dest={{ fail2ban_filter_dir }}/freeswitch.conf
+  when: fail2ban_install == true
+- copy: src={{ fail2ban_dos_fs }} dest={{ fail2ban_filter_dir }}/freeswitch-dos.conf
+  when: fail2ban_install == true
+
+- name: add Irontec apt key
+  apt_key: url=http://packages.irontec.com/public.key state=present
+  when: sngrep_install == true
+
+- name: add Sngrep repository
+  apt_repository: repo='deb http://packages.irontec.com/debian {{ansible_distribution_release}} main' state=present filename='sngrep'
+  when: sngrep_install == true
+
+- name: Update APT Cache
+  apt: update_cache=yes cache_valid_time=3600
+  when: sngrep_install == true
+
+- name: Install sngrep
+  apt: pkg=sngrep state=present
+  when: sngrep_install == true
