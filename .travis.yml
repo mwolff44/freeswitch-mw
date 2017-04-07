@@ -14,12 +14,11 @@ branches:
 
 addons:
   apt:
+    sources:
+    - sourceline: 'deb http://ppa.launchpad.net/ansible/ansible/ubuntu trusty main'
     packages:
     - python-software-properties
-  apt:
-    sourceline: 'ppa:ansible/ansible'
-  apt:
-    packages:
+    - python-pip
     - ansible
 
 install:
@@ -43,9 +42,6 @@ script:
   # Ansible version
   - ansible --version
   
-  # Prepare tests
-  - echo localhost > inventory
-
   # Check syntax
   - ansible-playbook --syntax-check -i tests/inventory tests/test.yml
 
