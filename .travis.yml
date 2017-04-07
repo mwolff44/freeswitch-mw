@@ -23,6 +23,9 @@ addons:
     - python-dev
 
 install:
+  # Update pip
+  - pip install -U pip
+  
   # Upgrade to the latest version of the Cryptography module
   - pip install cryptography --upgrade
   
