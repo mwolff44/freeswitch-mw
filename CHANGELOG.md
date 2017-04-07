@@ -1,5 +1,13 @@
 Changelog
 =========
+v1.4
+-----
+- Install from packages
+- Only for Debian Jessie
+- Freewitch version 1.6
+- Add Fail2ban optionnal
+- Add sngrep install optional
+- Ansible > 2
 
 v1.3
 ----

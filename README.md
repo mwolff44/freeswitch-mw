@@ -10,14 +10,13 @@ Ansible role for FreeSwitch
 Requirements
 ------------
 
-- Tested on Ansible 1.8 or higher.
+- Tested on Ansible 2.0 or higher.
 
 Ansible installation via pip
 ----------------------------
 
 
-	sudo apt-get install -y python-pip python-apt python-pycurl libtiff5-dev git
-	sudo pip install ansible
+	sudo apt-get install -y ansible
 
 
 Role Variables
@@ -26,15 +25,9 @@ Role Variables
 The role variables and default values.
 
 
-	freeswitch_version: 1.6 #FreeSwitch version. Becareful, only tested with 1.4 version for the time being
-	freeswitch_sources_path: /usr/src/freeswitch/ #Path to the FreeSwitch source directory
-	freeswitch_path: /usr/local/freeswitch/ #Path to the FreeSwith directory
-	freeswitch_owner: freeswitch
-	freeswitch_group: daemon
+	freeswitch_version: 1.6 #FreeSwitch version. Becareful, only tested with 1.6 version for the time being
 	freeswitch_modules_template: ../templates/modules.conf #modules.conf file used for FreeSwitch compilation
 	freeswitch_init_template: ../templates/freeswitch.init #init script template
-	freeswitch_configure_command: configure # freeswicth configure command - you can add option
-	freeswitch_log_rotate_script: ../templates/freeswitch_log_rotation # log management script
 	freeswitch_log_conf_template: ../template/logfile.conf.xml # freeswitch log configuration file template
 	fail2ban_local_jail_file: /etc/fail2ban/jail.local # fail2ban jail file for FreeSwitch
 	fail2ban_filter_dir: /etc/fail2ban/filter.d # fail2ban filter directory
