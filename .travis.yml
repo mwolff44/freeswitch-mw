@@ -14,13 +14,9 @@ branches:
 
 addons:
   apt:
+    sourceline: 'ppa:ansible/ansible'
     packages:
-    - python-pip
-    - python-apt
-    - build-essential
-    - libssl-dev
-    - libffi-dev
-    - python-dev
+    - python-software-properties
     - ansible
 
 install:
@@ -48,10 +44,10 @@ script:
   - echo localhost > inventory
 
   # Check syntax
-  - ansible-playbook --syntax-check -i inventory test.yml
+  - ansible-playbook --syntax-check -i tests/inventory tests/test.yml
 
   # First run
-  - ansible-playbook -i inventory test.yml --connection=local --sudo
+  - ansible-playbook -i tests/inventory tests/test.yml --connection=local --sudo
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
