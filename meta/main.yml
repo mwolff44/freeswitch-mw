@@ -6,13 +6,11 @@ galaxy_info:
   license: GPLv3
   min_ansible_version: 1.8
   platforms:
-  - name: Ubuntu
-    versions:
-    - trusty
   - name: Debian
     versions:
-    - wheezy
     - jessie
-  categories:
+  galaxy_tags:
   - system
+  - voip
+
 dependencies: []  
