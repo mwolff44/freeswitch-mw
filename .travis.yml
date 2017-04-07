@@ -21,16 +21,17 @@ addons:
     - libssl-dev
     - libffi-dev
     - python-dev
+    - ansible
 
 install:
   # Update pip
-  - pip install -U pip
+  #- pip install -U pip
   
   # Upgrade to the latest version of the Cryptography module
   #- pip install cryptography --upgrade
   
   # Install ansible
-  - pip install ansible
+  #- pip install ansible
   
   # don't use travis virtualenv, as ansible does not do so either
   # and couldn't find the docker package that way
