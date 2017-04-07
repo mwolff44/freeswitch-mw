@@ -38,7 +38,11 @@
   when: mod_bcg729_installed.stat.exists == false and freeswitch_g729_install == true
 
 - name: Build mod_bcg729 
+<<<<<<< HEAD
   command: "{{ item }}"
+=======
+  command: "{{ item }}
+>>>>>>> 173c91893dd6f9531a5f2be827a3755862c4e3fc
   args:
     chdir: "/usr/local/src/mod_bcg729"
   with_items:
