@@ -12,12 +12,13 @@ branches:
   except:
     - /^debian\/\d/
 
-addons:
-  apt:
-    sourceline: 'ppa:ansible/ansible'
-    packages:
-    - python-software-properties
-    - ansible
+install:
+  - sudo pip install docker-py
+  - sudo apt-get install -y sshpass software-properties-common
+  - sudo apt-add-repository -y ppa:ansible/ansible
+  - sudo apt-get update -qq
+  - sudo apt-get install -y ansible
+
 
 install:
   # Update pip
