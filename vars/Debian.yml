@@ -1,4 +1,0 @@
-__freeswitch_packages:
-  - freeswitch-meta-all
-  - freeswitch-all-dbg
-  - gdb

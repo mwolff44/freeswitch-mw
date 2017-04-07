@@ -1,5 +1,9 @@
 ---
-- hosts: localhost
-  remote_user: root
+- hosts: all
+
+  vars:
+    freeswitch_g729_install: true
+    fail2ban_install: true
+
   roles:
     - freeswitch-mw
