@@ -14,10 +14,10 @@
 
 - name: Install FreeSwitch
   apt: "name={{ item }} state=present"
-  with_items: "{{ freeswitch_packages }}
+  with_items: "{{ freeswitch_packages }}"
 
 - name: Install required packages for mod_bcg729
-  apt: name={{item}} state=latest
+  apt: name={{ item }} state=latest
   with_items:
     - automake
     - autoconf
@@ -38,16 +38,12 @@
   when: mod_bcg729_installed.stat.exists == false and freeswitch_g729_install == true
 
 - name: Build mod_bcg729 
-<<<<<<< HEAD
   command: "{{ item }}"
-=======
-  command: "{{ item }}
->>>>>>> 173c91893dd6f9531a5f2be827a3755862c4e3fc
   args:
-    chdir: "/usr/local/src/mod_bcg729"
+    chdir: /usr/local/src/mod_bcg729
   with_items:
-    - "make"
-    - "make install"    
+    - make
+    - make install   
   notify:
     - Change Config
   when: mod_bcg729_installed.stat.exists == false and freeswitch_g729_install == true
