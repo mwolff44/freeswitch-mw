@@ -3,7 +3,7 @@
 - name: Add FreeSwitch Repo Signing key
   apt_key: url=https://files.freeswitch.org/repo/deb/debian/freeswitch_archive_g0.pub state=present
 
-- name: Add FreeSwitch apt repository (1.6)
+- name: Add FreeSwitch apt repository (1.6) (Debian 8/Jessie)
   apt_repository:
     repo: deb http://files.freeswitch.org/repo/deb/freeswitch-1.6/ jessie main
     state: present
@@ -38,10 +38,12 @@
   when: mod_bcg729_installed.stat.exists == false and freeswitch_g729_install == true
 
 - name: Build mod_bcg729 
-  command: "{{ item }} chdir=/usr/local/src/mod_bcg729"
+  command: "{{ item }}
+  args:
+    chdir: "/usr/local/src/mod_bcg729"
   with_items:
-    - make
-    - make install    
+    - "make"
+    - "make install"    
   notify:
     - Change Config
   when: mod_bcg729_installed.stat.exists == false and freeswitch_g729_install == true
@@ -51,6 +53,9 @@
 #mkdir /etc/freeswitch
 #cp -R /var//resources/templates/conf/* /etc/freeswitch
 
+# mod_fail2ban
+# https://freeswitch.org/confluence/display/FREESWITCH/Fail2Ban
+# https://freeswitch.org/confluence/display/FREESWITCH/mod_fail2ban
 - name: install fail2ban
   apt: name=fail2ban state=latest
   when: fail2ban_install == true
