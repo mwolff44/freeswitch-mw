@@ -4,17 +4,17 @@
 - name: Add FreeSwitch Repo Signing key
   apt_key: url=http://files.freeswitch.org/repo/deb/debian/freeswitch_archive_g0.pub
 
-- name: Update APT Cache
-  apt: update_cache=yes
-
 - name: Add FreeSwitch apt repository (1.6)
   apt_repository:
     repo: deb http://files.freeswitch.org/repo/deb/freeswitch-1.6/ jessie main
     state: present
     filename: 'freeswitch'
+    
+- name: Update APT Cache
+  apt: update_cache=yes
 
 - name: Install FreeSwitch server
-  apt: name=freeswitch-video-deps-most update_cache=yes
+  apt: pkg=freeswitch-video-deps-most state=present
 
 # Installation from sources
 - name: Install Prerequisites freeswitch packages
