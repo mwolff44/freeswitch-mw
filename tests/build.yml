@@ -1,7 +1,11 @@
 - hosts: all
   vars_files:
-    - 'defaults/main.yml'
+    - '../defaults/main.yml'
+  vars:
+    freeswitch_g729_install: True
+    false2ban_install: True
+    sngrep_install: True
   tasks:
-    - include: 'tasks/main.yml'
+    - include: '../tasks/main.yml'
   handlers:
-    - include: 'handlers/main.yml'
+    - include: '../handlers/main.yml'

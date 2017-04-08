@@ -6,10 +6,10 @@ freeswitch_modules_template: ../templates/modules/modules.conf.xml #modules.conf
 freeswitch_init_template: ../templates/freeswitch.init #init script template
 freeswitch_log_conf_template: ../templates/config/logfile.conf.xml # freeswitch log configuration file template
 freeswitch_g729_install: false
-__freeswitch_packages:
-  - freeswitch-meta-all
-  - freeswitch-all-dbg
-  - gdb
+freeswitch_packages:
+    - freeswitch-meta-all
+    - freeswitch-all-dbg
+    - gdb
 
 # Fail2ban
 fail2ban_install: false

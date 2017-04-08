@@ -13,7 +13,7 @@
   apt: update_cache=yes
 
 - name: Install FreeSwitch
-  apt: "name={{ item }} state=present"
+  apt: name={{ item }} state=present
   with_items: "{{ freeswitch_packages }}"
 
 - name: Install required packages for mod_bcg729
@@ -30,12 +30,13 @@
 
 - name: Check if mod_bcg729 is installed
   stat: path=/usr/lib/freeswitch/mod/mod_bcg729.so
-  register: mod_bcg729_installed and freeswitch_g729_install == true
+  register: mod_bcg729_installed
 
+- debug: var=mod_bcg729_installed
 
 - name: Download mod_bcg729
   git: repo=https://github.com/xadhoom/mod_bcg729 dest=/usr/local/src/mod_bcg729
-  when: mod_bcg729_installed.stat.exists == false and freeswitch_g729_install == true
+  when: mod_bcg729_installed.stat.exists == false and freeswitch_g729_install
 
 - name: Build mod_bcg729 
   command: "{{ item }}"
@@ -46,7 +47,7 @@
     - make install   
   notify:
     - Change Config
-  when: mod_bcg729_installed.stat.exists == false and freeswitch_g729_install == true
+  when: mod_bcg729_installed.stat.exists == false and freeswitch_g729_install
 
 #- name: Copy FreeSwitch config after back up default one
 #mv /etc/freeswitch /etc/freeswitch.orig
