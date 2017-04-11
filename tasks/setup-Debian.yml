@@ -51,15 +51,25 @@
 
 # Install FreeSwitch
 - name: Install FreeSwitch
-  apt: name={{ item }} state=present
+  apt: name={{ item }} state=latest
   with_items: "{{ freeswitch_packages }}"
 
-#- name: Copy FreeSwitch config after back up default one
-#mv /etc/freeswitch /etc/freeswitch.orig
-#mkdir /etc/freeswitch
-#cp -R /var//resources/templates/conf/* /etc/freeswitch
+- name: Backup FreeSwitch configuration files.
+  copy:
+    src: "{{ freeswitch_conf_dir }}"
+    dest: "{{ freeswitch_conf_backup_dir }}"
+  when : freeswitch_install_conf
 
-# sngrep
+- name: Copy FreeSwitch configuration files.
+  copy:
+    src: "{{ freeswitch_config_template_dir }}"
+    dest: "{{ freeswitch_conf_dir }}"
+  when: freeswitch_install_conf
+
+- name: Make sure FreeSwitch is started and configure it to run at boot.
+  service: name=freeswitch state=started enabled=yes
+
+# g729
 - name: mod_bcg729 codec installation process
   include: g729.yml
   when: freeswitch_g729_install
@@ -85,9 +95,10 @@
   apt: name=munin-node state=latest
   register: apt_munin_node_check
   ignore_errors: yes
+  when: munin_node_install
 
 - include: munin-plugin.yml
-  when: apt_munin_node_check.rc == 0
+  when: munin_node_install
 
 # sngrep
 - name: Sngrep installation process

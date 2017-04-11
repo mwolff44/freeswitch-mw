@@ -2,7 +2,7 @@
 
 - name: add munin-plugin
   copy:
-    src: unbound_munin_.sh
+    src: ../files/unbound_munin_.sh
     dest: /usr/share/munin/plugins/unbound_munin_
     mode: "a+x"
   become: yes

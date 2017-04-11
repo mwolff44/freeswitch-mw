@@ -5,7 +5,7 @@ Freeswitch-mw
 [![Galaxy](http://img.shields.io/badge/galaxy-mwolff44.freeswitch--mw-blue.svg?style=flat-square)](https://galaxy.ansible.com/list#/roles/2582)
 
 
-Ansible role for FreeSwitch
+Ansible role for FreeSwitch 1.6
 
 Requirements
 ------------
@@ -24,16 +24,50 @@ Role Variables
 
 The role variables and default values.
 
+### FreeSwitch
 
-	freeswitch_version: 1.6 #FreeSwitch version. Becareful, only tested with 1.6 version for the time being
-	freeswitch_modules_template: ../templates/modules.conf #modules.conf file used for FreeSwitch compilation
-	freeswitch_init_template: ../templates/freeswitch.init #init script template
-	freeswitch_log_conf_template: ../template/logfile.conf.xml # freeswitch log configuration file template
+
+	freeswitch_conf_dir: '/etc/freeswitch' # Configuration directory
+	freeswitch_install_conf: True # Allow the installation of the configuration files - Could be disabled when updating
+	freeswitch_conf_backup_dir: '/etc/freeswitch.orig' # Backup configuration directory
+	freeswitch_config_template_dir: ../templates/config/ # Templates directory used for FreeSwitch configuration
+	freeswitch_packages: # FreeSwitch packages to be installed
+	    - freeswitch-meta-all
+	    - freeswitch-all-dbg
+	    - gdb
+
+### Fail2ban
+
+
+	fail2ban_install: False # Default : fail2ban will not be installed
 	fail2ban_local_jail_file: /etc/fail2ban/jail.local # fail2ban jail file for FreeSwitch
 	fail2ban_filter_dir: /etc/fail2ban/filter.d # fail2ban filter directory
-	fail2ban_local_jail: ../templates/jail.local # fail2ban template jail for FreeSwitch
-	fail2ban_fs: ../templates/freeswitch.conf # Fail2ban filter template for FreeSwitch
-	fail2ban_dos_fs: ../templates/freeswitch-dos.conf # Fail2ban filter template for freeswitch dos
+	fail2ban_local_jail: ../templates/fail2ban/jail.local # fail2ban template jail for FreeSwitch
+	fail2ban_fs: ../templates/fail2ban/freeswitch.conf # Fail2ban filter template for FreeSwitch
+	fail2ban_dos_fs: ../templates/fail2ban/freeswitch-dos.conf # Fail2ban filter template for freeswitch dos
+
+
+### Sngrep
+
+
+	sngrep_install: False # Default : sngrep will not be installed
+
+
+### Time sync with systemd
+
+
+	ntp_install: False # Default : time sync will not be configured
+	ntp_servers: '{{ ntp_servers_map[ansible_distribution]
+        	          | d(ntp_servers_map["default"]) }}'
+	ntp_servers_map:
+	  'Debian':  [ '0.debian.pool.ntp.org', '1.debian.pool.ntp.org',
+        	       '2.debian.pool.ntp.org', '3.debian.pool.ntp.org' ]
+	  'Ubuntu':  [ '0.ubuntu.pool.ntp.org', '1.ubuntu.pool.ntp.org',
+        	       '2.ubuntu.pool.ntp.org', '3.ubuntu.pool.ntp.org' ]
+	  'default': [ '0.pool.ntp.org', '1.pool.ntp.org',
+        	       '2.pool.ntp.org', '3.pool.ntp.org' ]
+	ntp_timezone: 'Europe/Paris'
+	ntp_timesyncd_template : ../templates/etc/systemd/timesyncd.conf.d/ansible.conf.j2
 
 
 Dependencies

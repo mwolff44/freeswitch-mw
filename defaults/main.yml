@@ -1,6 +1,6 @@
 ---
 # ntp
-ntp_install: True
+ntp_install: False
 ntp_servers: '{{ ntp_servers_map[ansible_distribution]
                   | d(ntp_servers_map["default"]) }}'
 ntp_servers_map:
@@ -31,18 +31,19 @@ dns_servers_map:
   'OpenDNS':  [ '208.67.222.220', '208.67.222.222']
 
 # FreeSwitch
-freeswitch_version: v1.6 #FreeSwitch version. Becareful, only tested with 1.4 version for the time being
-freeswitch_modules_template: ../templates/modules/modules.conf.xml #modules.conf file used for FreeSwitch compilation
-freeswitch_init_template: ../templates/freeswitch.init #init script template
-freeswitch_log_conf_template: ../templates/config/logfile.conf.xml # freeswitch log configuration file template
-freeswitch_g729_install: True
+freeswitch_version: v1.6 # FreeSwitch version. Becareful, only tested with 1.6 version for the time being
+freeswitch_conf_dir: '/etc/freeswitch' # Configuration directory
+freeswitch_install_conf: True # Allow the installation of the configuration files - Could be disabled when updating
+freeswitch_conf_backup_dir: '/etc/freeswitch.orig' # Backup configuration directory
+freeswitch_config_template_dir: ../templates/config/ # Templates directory used for FreeSwitch configuration
+freeswitch_g729_install: False
 freeswitch_packages:
     - freeswitch-meta-all
     - freeswitch-all-dbg
     - gdb
 
 # Fail2ban
-fail2ban_install: True
+fail2ban_install: False
 fail2ban_local_jail_file: /etc/fail2ban/jail.local # fail2ban jail file for FreeSwitch
 fail2ban_filter_dir: /etc/fail2ban/filter.d # fail2ban filter directory
 fail2ban_local_jail: ../templates/fail2ban/jail.local # fail2ban template jail for FreeSwitch
@@ -50,11 +51,11 @@ fail2ban_fs: ../templates/fail2ban/freeswitch.conf # Fail2ban filter template fo
 fail2ban_dos_fs: ../templates/fail2ban/freeswitch-dos.conf # Fail2ban filter template for freeswitch dos
 
 # Monit
-monit_install: false
+monit_install: False
 
 # Munin
-munin_node_install: false
-munin_install: false
+munin_node_install: False
+munin_install: False
 
 # sngrep
-sngrep_install: True
+sngrep_install: False
