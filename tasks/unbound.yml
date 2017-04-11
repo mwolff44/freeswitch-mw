@@ -1,0 +1,13 @@
+---
+- name: Install unbound
+  apt: name=unbound state=latest
+
+- name: Configure unbound
+  template:
+    src: '../templates/etc/unbound.conf.j2'
+    dest: "{{ unbound_conf_dir }}/unbound.conf"
+    owner: 'root'
+    group: "{{ unbound_group }}"
+    mode: '0644'
+  notify: Restart unbound
+  when: dns_servers|d()

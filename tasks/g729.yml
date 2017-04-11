@@ -1,0 +1,36 @@
+---
+
+- name: Install required packages for mod_bcg729
+  apt: name={{ item }} state=latest
+  with_items:
+    - automake
+    - autoconf
+    - pkg-config
+    - libtool
+    - build-essential
+    - git-all
+    - libortp-dev
+    - libfreeswitch-dev
+
+- name: Check if mod_bcg729 is installed
+  stat: path=/usr/lib/freeswitch/mod/mod_bcg729.so
+  register: mod_bcg729_installed
+
+- debug: var=mod_bcg729_installed
+
+- name: Download mod_bcg729
+  git:
+    repo: https://github.com/xadhoom/mod_bcg729
+    dest: /usr/local/src/mod_bcg729
+  when: mod_bcg729_installed.stat.exists == false
+
+- name: Build mod_bcg729 
+  command: "{{ item }}"
+  args:
+    chdir: /usr/local/src/mod_bcg729
+  with_items:
+    - make
+    - make install   
+  notify:
+    - Change Config
+  when: mod_bcg729_installed.stat.exists == false

@@ -1,0 +1,5 @@
+__unbound_user: unbound
+__unbound_group: unbound
+__unbound_conf_dir: /etc/unbound
+__unbound_script_dir: /usr/bin
+__unbound_directory: /etc/unbound

@@ -1,0 +1,47 @@
+---
+
+- name: add munin-plugin
+  copy:
+    src: unbound_munin_.sh
+    dest: /usr/share/munin/plugins/unbound_munin_
+    mode: "a+x"
+  become: yes
+
+- name: enable unbound_munin_hits
+  file:
+    src: /usr/share/munin/plugins/unbound_munin_
+    dest: /etc/munin/plugins/unbound_munin_hits
+    state: link
+  notify: restart_munin_node
+  become: yes
+
+- name: enable unbound_munin_memory
+  file:
+    src: /usr/share/munin/plugins/unbound_munin_
+    dest: /etc/munin/plugins/unbound_munin_memory
+    state: link
+  notify: restart_munin_node
+  become: yes
+
+- name: enable unbound_munin_histogram
+  file:
+    src: /usr/share/munin/plugins/unbound_munin_
+    dest: /etc/munin/plugins/unbound_munin_histogram
+    state: link
+  notify: restart_munin_node
+  become: yes
+
+- name: add munin plugin-conf
+  copy:
+    content: |
+      [unbound*]
+      user root
+      env.statefile /var/lib/munin-node/plugin-state/root/unbound.state
+      env.unbound_conf /etc/unbound/unbound.conf
+      env.unbound_control /usr/sbin/unbound-control
+      env.spoof_warn 1000
+      env.spoof_crit 100000
+    dest: /etc/munin/plugin-conf.d/unbound_
+    mode: 0644
+  notify: restart_munin_node
+  become: yes

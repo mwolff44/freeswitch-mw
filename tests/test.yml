@@ -6,4 +6,4 @@
     fail2ban_install: true
 
   roles:
-    - freeswitch-mw
+    - ../freeswitch-mw

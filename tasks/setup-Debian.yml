@@ -12,47 +12,57 @@
 - name: Update APT Cache
   apt: update_cache=yes
 
+- name: Ensure tzdata is installed
+  apt: name=tzdata state=latest
+  when: ntp_install
+
+### source of systemd-timesynd : https://github.com/debops/ansible-ntp
+- name: Ensure that alternative daemons/programs are not installed
+  apt:
+    name: '{{ item }}'
+    state: absent
+    purge: True
+  with_flattened:
+    - ntpdate
+    - ntp
+    - openntpd
+  when: ntp_install
+
+- name: Manage systemd-timesyncd state
+  service:
+    name: 'systemd-timesyncd'
+    state: started
+    enabled: True
+  when: ntp_install
+
+# Configure systemd-timesyncd
+- name: Include systemd-timesyncd configuration
+  include: systemd-timesyncd.yml
+  when: ntp_install
+
+- name: Timezone configuration
+  include: timezone.yml
+  when: (ntp_timezone|d() and ntp_install)
+
+# Install unbound
+- name: Include unbound installation / configuration
+  include: unbound.yml
+  when: unbound_install
+
+# Install FreeSwitch
 - name: Install FreeSwitch
   apt: name={{ item }} state=present
   with_items: "{{ freeswitch_packages }}"
-
-- name: Install required packages for mod_bcg729
-  apt: name={{ item }} state=latest
-  with_items:
-    - automake
-    - autoconf
-    - pkg-config
-    - libtool
-    - build-essential
-    - libortp-dev
-    - libfreeswitch-dev
-  when: freeswitch_g729_install == true
-
-- name: Check if mod_bcg729 is installed
-  stat: path=/usr/lib/freeswitch/mod/mod_bcg729.so
-  register: mod_bcg729_installed
-
-- debug: var=mod_bcg729_installed
-
-- name: Download mod_bcg729
-  git: repo=https://github.com/xadhoom/mod_bcg729 dest=/usr/local/src/mod_bcg729
-  when: mod_bcg729_installed.stat.exists == false and freeswitch_g729_install
-
-- name: Build mod_bcg729 
-  command: "{{ item }}"
-  args:
-    chdir: /usr/local/src/mod_bcg729
-  with_items:
-    - make
-    - make install   
-  notify:
-    - Change Config
-  when: mod_bcg729_installed.stat.exists == false and freeswitch_g729_install
 
 #- name: Copy FreeSwitch config after back up default one
 #mv /etc/freeswitch /etc/freeswitch.orig
 #mkdir /etc/freeswitch
 #cp -R /var//resources/templates/conf/* /etc/freeswitch
+
+# sngrep
+- name: mod_bcg729 codec installation process
+  include: g729.yml
+  when: freeswitch_g729_install
 
 # mod_fail2ban
 # https://freeswitch.org/confluence/display/FREESWITCH/Fail2Ban
@@ -68,18 +78,19 @@
 - copy: src={{ fail2ban_dos_fs }} dest={{ fail2ban_filter_dir }}/freeswitch-dos.conf
   when: fail2ban_install == true
 
-- name: add Irontec apt key
-  apt_key: url=http://packages.irontec.com/public.key state=present
-  when: sngrep_install == true
+# monit
 
-- name: add Sngrep repository
-  apt_repository: repo='deb http://packages.irontec.com/debian {{ansible_distribution_release}} main' state=present filename='sngrep'
-  when: sngrep_install == true
+# munin
+- name: check if munin-node is installed
+  apt: name=munin-node state=latest
+  register: apt_munin_node_check
+  ignore_errors: yes
 
-- name: Update APT Cache
-  apt: update_cache=yes cache_valid_time=3600
-  when: sngrep_install == true
+- include: munin-plugin.yml
+  when: apt_munin_node_check.rc == 0
 
-- name: Install sngrep
-  apt: pkg=sngrep state=present
-  when: sngrep_install == true
+# sngrep
+- name: Sngrep installation process
+  include: sngrep.yml
+  when: sngrep_install
+

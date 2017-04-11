@@ -5,22 +5,29 @@ Vagrant.configure(2) do |config|
 
   config.vm.box = "debian/jessie64"
 
-  config.vm.network "forwarded_port", guest: 5432, host: 5432
   config.vm.network "forwarded_port", guest: 80, host: 8080
-  config.vm.network "forwarded_port", guest: 8000, host: 8000
   config.vm.network "forwarded_port", guest: 5060, host: 5060, protocol: 'udp'
 
-  config.vm.network "public_network", ip: "10.0.3.223"
+  # Freeswitch
+  #config.vm.define "freeswitch" do |freeswitch|
+  #  freeswitch.vm.hostname = "freeswitch-mw.dev"
+  #  freeswitch.vm.network :public_network, ip: "10.0.3.223"
+  #  freeswitch.vm.provision "shell",
+  #    inline: "sudo apt-get update && sudo apt-get install -f ansible"
+  #end
 
-  config.vm.provider "virtualbox" do |vb|
-    # Customize the amount of memory on the VM:
-    vb.memory = "1024"
+  config.vm.provider :virtualbox do |vb|
+    vb.customize ["modifyvm", :id, "--memory", 512]
+    vb.customize ["modifyvm", :id, "--cpus", 1]
+    vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+    vb.customize ["modifyvm", :id, "--ioapic", "on"]
   end
 
-  config.vm.provision "ansible_local" do |ansible|
-    ansible.playbook = "tests/build.yml"
-  end
+  #config.vm.provision "ansible_local" do |ansible|
+  #  ansible.playbook = "tests/build.yml"
+  #end
 
+  config.vm.synced_folder ".", "/usr/local/src"
 
   # config.ssh.username = "vagrant"
   # config.ssh.password = "vagrant"

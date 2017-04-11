@@ -1,1 +1,8 @@
+[server]
 localhost
+
+[server:vars]
+freeswitch_g729_install=True
+false2ban_install=True
+sngrep_install=True
+ntp_timezone='Europe/Paris'

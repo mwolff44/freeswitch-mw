@@ -1,0 +1,14 @@
+---
+
+- name: add Irontec apt key
+  apt_key: url=http://packages.irontec.com/public.key state=present
+
+- name: add Sngrep repository
+  apt_repository: repo='deb http://packages.irontec.com/debian {{ansible_distribution_release}} main' state=present filename='sngrep'
+
+- name: Update APT Cache
+  apt: update_cache=yes cache_valid_time=3600
+
+- name: Install sngrep
+  apt: pkg=sngrep state=present
+

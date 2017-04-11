@@ -13,3 +13,21 @@
 - name: restart fail2ban
   service: name=fail2ban state=restarted
   when: fail2ban_install == true
+
+- name: Restart systemd-timesyncd
+  service:
+    name: 'systemd-timesyncd'
+    state: 'restarted'
+
+- name: Restart unbound
+  service:
+    name: 'unbound'
+    state: 'restarted'
+    enabled: yes
+  become: yes
+
+- name: restart_munin_node
+  service:
+    name: munin-node
+    state: restarted
+  become: yes

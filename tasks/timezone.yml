@@ -1,0 +1,57 @@
+---
+# source : https://github.com/debops/ansible-ntp/blob/master/tasks/timezone.yml
+
+- name: Configure tzdata area in debconf
+  debconf:
+    name: 'tzdata'
+    question: 'tzdata/Areas'
+    vtype: 'select'
+    value: '{{ ntp_timezone.split("/")[0] }}'
+  register: ntp_register_debconf_set_area
+
+- name: Configure tzdata zone in debconf
+  debconf:
+    name: 'tzdata'
+    question: 'tzdata/Zones/{{ ntp_timezone.split("/")[0] }}'
+    vtype: 'select'
+    value: '{{ ntp_timezone.split("/")[1] }}'
+  register: ntp_register_debconf_set_zone
+
+  # tzdata ignores debconf answers when configured non-interactively
+  # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=704089
+- name: Configure timezone in /etc/timezone
+  template:
+    src: '../templates/etc/timezone.j2'
+    dest: '/etc/timezone'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+  register: ntp_register_etc_timezone
+
+- name: Check if /etc/localtime is a symlink
+  stat:
+    path: '/etc/localtime'
+  register: ntp_register_etc_localtime
+
+- name: Symlink correct timezone as /etc/localtime
+  file:
+    path: '/etc/localtime'
+    src: '/usr/share/zoneinfo/{{ ntp_timezone }}'
+    state: 'link'
+  when: (ntp_register_etc_timezone|changed and
+         ntp_register_etc_localtime.stat.islnk|bool)
+
+- name: Configure timezone with timedatectl
+  shell: 'timedatectl set-timezone {{ ntp_timezone }}'
+  when: ((ansible_local|d() and ansible_local.init|d() and
+                ansible_local.init == "systemd")) and
+        (ansible_local is undefined or
+            (ansible_local|d() and ansible_local.timezone|d() and
+                ntp_timezone != ansible_local.timezone) or
+            (ntp_register_etc_timezone|d() and ntp_register_etc_timezone|changed))
+
+- name: Reconfigure tzdata
+  shell: dpkg-reconfigure --frontend noninteractive tzdata
+  when: ((ntp_register_debconf_set_area|d() and ntp_register_debconf_set_area|changed) or
+         (ntp_register_debconf_set_zone|d() and ntp_register_debconf_set_zone|changed) or
+         (ntp_register_etc_timezone|d() and ntp_register_etc_timezone|changed))

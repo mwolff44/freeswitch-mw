@@ -1,0 +1,20 @@
+---
+
+# source https://raw.githubusercontent.com/debops/ansible-ntp/master/tasks/systemd-timesyncd.yml
+
+- name: Make sure conf override dir exists
+  file:
+    path: '/etc/systemd/timesyncd.conf.d'
+    state: 'directory'
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
+
+- name: Configure systemd-timesyncd
+  template:
+    src: "{{ ntp_timesyncd_template }}"
+    dest: '/etc/systemd/timesyncd.conf.d/ansible.conf'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+  notify: [ 'Restart systemd-timesyncd' ]

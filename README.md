@@ -63,7 +63,14 @@ License
 
 Licensed under the GPL v3 license. See the LICENSE file for details.
 
+
+Contributor
+--------
+
+A special thank to :
+Bruno SALZANO / [d4rkstar@gmail.com](d4rkstar@gmail.com)
+
 Author Information
 ------------------
 
-Mathias WOLFF [Blog des télécoms](http://www.blog-des-telecoms.com) - [PyFreeBilling](https://www.pyfreebilling.com)
+Mathias WOLFF / [Blog des télécoms](http://www.blog-des-telecoms.com) - [PyFreeBilling](https://www.pyfreebilling.com)

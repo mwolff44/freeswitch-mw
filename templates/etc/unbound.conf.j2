@@ -1,0 +1,66 @@
+## Simple recursive caching DNS, UDP port 53
+## DNS Over TLS, Simple ENCRYPTED recursive caching DNS, TCP port 853
+## https://wiki.debian-fr.xyz/Utiliser_Unbound_avec_DNSSEC
+## unbound.conf - {{ dns_servers }}
+#
+server:
+
+  {% for unbound_interface in unbound_interfaces %}
+  interface: {{ unbound_interface }}
+  {% endfor %}
+  port: {{ unbound_listen_port }}
+
+  # if DNS Over TLS, set do-tcp to yes
+{% if dns_tcp %} 
+  do-tcp: yes
+{% endif %}
+  do-ip4: {{ unbound_config_do_ip4 }}
+  do-ip6: {{ unbound_config_do_ip6 }}
+
+
+ # security
+  access-control: 127.0.0.0/8 allow
+  access-control: 0.0.0.0/0 refuse
+
+  hide-identity: yes
+  hide-version: yes
+
+  private-address: 192.168.0.0/16
+  private-address: 172.16.0.0/12
+  private-address: 10.0.0.0/8
+
+  use-caps-for-id: no
+
+  # optimisation
+  minimal-responses: yes
+  qname-minimisation: yes
+  rrset-roundrobin: yes
+
+  # keep in cache good results
+  prefetch: yes
+  cache-max-ttl: 14400
+  cache-min-ttl: 900
+
+
+  # gestion logs
+  logfile: /var/log/unbound/unbound.log
+  use-syslog: yes
+  unwanted-reply-threshold: 10000000
+  val-log-level: 2
+  verbosity: 1
+
+
+  # stats
+  statistics-interval: 0
+  statistics-cumulative: yes
+  extended-statistics: yes
+
+forward-zone:
+      name: "."
+{% if dns_servers|d() and dns_servers is iterable %}
+{%   for nameserver in dns_servers %}
+      forward-addr: {{ nameserver }}
+{%   endfor %}
+{% elif dns_servers|d() and dns_servers is string %}
+      forward-addr: {{ dns_servers }}
+{% endif %}

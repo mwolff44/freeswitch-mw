@@ -1,18 +1,48 @@
 ---
+# ntp
+ntp_install: True
+ntp_servers: '{{ ntp_servers_map[ansible_distribution]
+                  | d(ntp_servers_map["default"]) }}'
+ntp_servers_map:
+  'Debian':  [ '0.debian.pool.ntp.org', '1.debian.pool.ntp.org',
+               '2.debian.pool.ntp.org', '3.debian.pool.ntp.org' ]
+  'Ubuntu':  [ '0.ubuntu.pool.ntp.org', '1.ubuntu.pool.ntp.org',
+               '2.ubuntu.pool.ntp.org', '3.ubuntu.pool.ntp.org' ]
+  'default': [ '0.pool.ntp.org', '1.pool.ntp.org',
+               '2.pool.ntp.org', '3.pool.ntp.org' ]
+ntp_timezone: 'Europe/Paris'
+ntp_timesyncd_template : ../templates/etc/systemd/timesyncd.conf.d/ansible.conf.j2
+
+# dns local
+unbound_install: False
+unbound_config_do_ip4: "yes"
+unbound_config_do_ip6: "no"
+unbound_interfacess:
+  - 127.0.0.1
+unbound_listen_port: 53
+dns_tcp: False
+dns_servers: 'OpenDNS'
+dns_servers_map:
+  'Google':  [ '8.8.8.8', '8.8.4.4']
+  'FreeDNS':  [ '37.235.1.174', '37.235.1.177']
+  'OpenNIC': [ '50.116.'2.211]
+  'Verisign':  [ '64.6.64.6', '64.6.65.6']
+  'DNSWatch':  [ '84.200.69.80', '84.200.70.40']
+  'OpenDNS':  [ '208.67.222.220', '208.67.222.222']
 
 # FreeSwitch
 freeswitch_version: v1.6 #FreeSwitch version. Becareful, only tested with 1.4 version for the time being
 freeswitch_modules_template: ../templates/modules/modules.conf.xml #modules.conf file used for FreeSwitch compilation
 freeswitch_init_template: ../templates/freeswitch.init #init script template
 freeswitch_log_conf_template: ../templates/config/logfile.conf.xml # freeswitch log configuration file template
-freeswitch_g729_install: false
+freeswitch_g729_install: True
 freeswitch_packages:
     - freeswitch-meta-all
     - freeswitch-all-dbg
     - gdb
 
 # Fail2ban
-fail2ban_install: false
+fail2ban_install: True
 fail2ban_local_jail_file: /etc/fail2ban/jail.local # fail2ban jail file for FreeSwitch
 fail2ban_filter_dir: /etc/fail2ban/filter.d # fail2ban filter directory
 fail2ban_local_jail: ../templates/fail2ban/jail.local # fail2ban template jail for FreeSwitch
@@ -27,4 +57,4 @@ munin_node_install: false
 munin_install: false
 
 # sngrep
-sngrep_install: false
+sngrep_install: True
