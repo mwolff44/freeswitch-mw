@@ -1,6 +1,6 @@
 ---
 # base packages
-basepackages_install: False
+basepackages_install: True
 basepackages_list:
     - git
     - unzip
@@ -11,7 +11,7 @@ basepackages_list:
     - luarocks
 
 # locales
-locales_install: False
+locales_install: True
 locales_list:
   - en_US.UTF-8
   - fr_FR.UTF-8
@@ -76,3 +76,7 @@ munin_install: False
 
 # sngrep
 sngrep_install: False
+
+# Upgrade kernel to 4.x using backport
+upgrade_kernel: False
+

@@ -1,9 +1,16 @@
+---
 # tasks file for Debian flavour
 
 # Adjust locales
 - name: Ensure proper locales
-  locale_gen: name={{ locales_list}} state=present
+  locale_gen: name={{ item }} state=present
+  with_items: "{{ locales_list }}"
   when: locales_install
+
+# Update kernel
+- name: Update kernel to 4.x version using backport
+  include: upgrade_kernel4_jessie.yml
+  when: upgrade_kernel
 
 # Freeswitch repo
 - name: Add FreeSwitch Repo Signing key
@@ -24,7 +31,8 @@
 
 # Install base packages
 - name: Install base packages
-  apt: name={{ basepackages_list }} state=latest
+  apt: name={{ item }} state=latest
+  with_items: "{{ basepackages_list }}"
   when: basepackages_install
 
 ### source of systemd-timesynd : https://github.com/debops/ansible-ntp
