@@ -5,8 +5,8 @@ Vagrant.configure(2) do |config|
 
   config.vm.box = "debian/jessie64"
 
-  config.vm.network "forwarded_port", guest: 80, host: 8080
-  config.vm.network "forwarded_port", guest: 5060, host: 5060, protocol: 'udp'
+  config.vm.network "forwarded_port", guest: 80, host: 8081
+  config.vm.network "forwarded_port", guest: 5060, host: 5061, protocol: 'udp'
 
   # Freeswitch
   #config.vm.define "freeswitch" do |freeswitch|

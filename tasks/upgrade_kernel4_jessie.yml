@@ -1,0 +1,28 @@
+- name: Enable repository
+  apt_repository: repo='deb http://ftp.debian.org/debian jessie-backports main' state=present filename=jessie_backports
+
+- name: Update APT Cache
+  apt: update_cache=yes cache_valid_time=3600
+  
+- name: Install 4.X kernel
+  apt: name={{item}} state=latest default_release={{ansible_distribution_release}}-backports
+  with_items:
+    - linux-image-amd64
+
+- name: Check for reboot hint.
+  shell: if [ $(readlink -f /vmlinuz) != /boot/vmlinuz-$(uname -r) ]; then echo 'reboot'; else echo 'no'; fi
+  ignore_errors: true
+  register: reboot_hint
+
+- name: Restart VM if kernel was upgraded
+  command: shutdown -r now "Kernel upgrade requires reboot"
+  async: 1
+  poll: 0
+  ignore_errors: true
+  when: reboot_hint.stdout.find("reboot") != -1
+  register: rebooting
+
+- name: waiting for server to come back
+  local_action: wait_for host="{{ ansible_ssh_host | default(inventory_hostname) }}" port=22 state=started delay=20
+  become: false
+  when: reboot_hint.stdout.find("reboot") != -1 and rebooting

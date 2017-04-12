@@ -1,4 +1,21 @@
 ---
+# base packages
+basepackages_install: False
+basepackages_list:
+    - git
+    - unzip
+    - htop
+    - iftop
+    - lua5.2
+    - liblua5.2-dev
+    - luarocks
+
+# locales
+locales_install: False
+locales_list:
+  - en_US.UTF-8
+  - fr_FR.UTF-8
+
 # ntp
 ntp_install: False
 ntp_servers: '{{ ntp_servers_map[ansible_distribution]

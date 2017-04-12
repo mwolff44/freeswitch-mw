@@ -1,6 +1,7 @@
 Changelog
 =========
-v1.4
+
+v2.0
 -----
 - Install from packages
 - Only for Debian Jessie

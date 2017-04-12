@@ -1,5 +1,11 @@
 # tasks file for Debian flavour
 
+# Adjust locales
+- name: Ensure proper locales
+  locale_gen: name={{ locales_list}} state=present
+  when: locales_install
+
+# Freeswitch repo
 - name: Add FreeSwitch Repo Signing key
   apt_key: url=https://files.freeswitch.org/repo/deb/debian/freeswitch_archive_g0.pub state=present
 
@@ -15,6 +21,11 @@
 - name: Ensure tzdata is installed
   apt: name=tzdata state=latest
   when: ntp_install
+
+# Install base packages
+- name: Install base packages
+  apt: name={{ basepackages_list }} state=latest
+  when: basepackages_install
 
 ### source of systemd-timesynd : https://github.com/debops/ansible-ntp
 - name: Ensure that alternative daemons/programs are not installed
