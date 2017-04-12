@@ -85,6 +85,18 @@
     dest: "{{ freeswitch_conf_dir }}"
   when: freeswitch_install_conf
 
+- name: Backup FreeSwitch script files.
+  copy:
+    src: "{{ freeswitch_script_dir }}"
+    dest: "{{ freeswitch_script_backup_dir }}"
+  when : freeswitch_install_script
+
+- name: Copy FreeSwitch script files.
+  copy:
+    src: "{{ freeswitch_script_template_dir }}"
+    dest: "{{ freeswitch_script_dir }}"
+  when: freeswitch_install_script
+
 - name: Make sure FreeSwitch is started and configure it to run at boot.
   service: name=freeswitch state=started enabled=yes
 

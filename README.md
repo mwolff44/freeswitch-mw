@@ -30,7 +30,7 @@ The role variables and default values.
 	freeswitch_conf_dir: '/etc/freeswitch' # Configuration directory
 	freeswitch_install_conf: True # Allow the installation of the configuration files - Could be disabled when updating
 	freeswitch_conf_backup_dir: '/etc/freeswitch.orig' # Backup configuration directory
-	freeswitch_config_template_dir: ../templates/config/ # Templates directory used for FreeSwitch configuration
+	freeswitch_config_template_dir: ../templates/freeswitch/config/ # Templates directory used for FreeSwitch configuration
 	freeswitch_packages: # FreeSwitch packages to be installed
 	    - freeswitch-meta-all
 	    - freeswitch-all-dbg

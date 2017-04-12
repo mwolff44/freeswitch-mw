@@ -1,5 +1,9 @@
 # TODO list
 
+## freeswitch
+
+- lua script copy
+
 ## unbound
 
 - add dnssec config

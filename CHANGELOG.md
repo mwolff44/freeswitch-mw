@@ -1,6 +1,16 @@
 Changelog
 =========
 
+v2.2
+-----
+- Script install management for freeswitch
+
+v2.1
+-----
+- Upgrade kernel tasks to Debian backport (for performance)
+- Install others packages from list
+- Locales configuration
+
 v2.0
 -----
 - Install from packages
