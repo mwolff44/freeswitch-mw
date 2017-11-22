@@ -81,6 +81,14 @@
   with_items: "{{ freeswitch_config_list }}"
   when: freeswitch_install_conf
 
+- name: Make sure FS script dir exists
+  file:
+    path: '{{ freeswitch_script_template_dir }}'
+    state: 'directory'
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
+
 - name: Copy FreeSwitch script files.
   template:
     src: "{{ freeswitch_script_template_dir }}/{{ item }}"
@@ -91,6 +99,44 @@
 
 - name: Make sure FreeSwitch is started and configure it to run at boot.
   service: name=freeswitch state=started enabled=yes
+
+# FreeSwitch symlinks
+- name: Make sure /usr/local/freeswitch dir exists
+  file:
+    path: '/usr/local/freeswitch'
+    state: 'directory'
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
+  when: freeswitch_symlinks
+
+- name: Make sure /usr/local/freeswitch/bin dir exists
+  file:
+    path: '/usr/local/freeswitch/bin'
+    state: 'directory'
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
+  when: freeswitch_symlinks
+
+- name: Create symlinks like default FS install documention
+  file:
+    src: '{{ item.src }}'
+    dest: '/usr/local/freeswitch/{{ item.dst }}'
+    state: 'link'
+  with_items:
+    - { src: '/usr/bin/freeswitch', dest: 'bin/' }
+    - { src: '/usr/bin/fs_*', dest: 'bin/' }
+    - { src: '/usr/bin/fsxs', dest: 'bin/' }
+    - { src: '/usr/bin/tone2wav', dest: 'bin/' }
+    - { src: '/usr/bin/gentls_cert', dest: 'bin/' }
+    - { src: '/etc/freeswitch', dest: 'conf' }
+    - { src: '/var/lib/freeswitch/*', dest: '' }
+    - { src: '/var/log/freeswitch', dest: 'log' }
+    - { src: '/var/run/freeswitch', dest: 'run' }
+    - { src: '/etc/freeswitch/tls', dest: 'certs' }
+    - { src: '/usr/lib/freeswitch/mod', dest: '' }
+  when: freeswitch_symlinks
 
 # g729
 - name: mod_bcg729 codec installation process

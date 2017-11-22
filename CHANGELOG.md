@@ -6,6 +6,9 @@ v2.2
 - Script install management for freeswitch
 - Correct installation bug of freeswitch config files
 - Add new freeswitch config vars (for log and switch)
+- Add symlinks like default freeswitch configuration
+- Test if FS script directory exists, if not, it creates it
+- Add scripts directory in freeswitch templates
 
 v2.1
 -----

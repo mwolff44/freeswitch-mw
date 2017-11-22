@@ -54,6 +54,7 @@ dns_servers_map:
 # FreeSwitch
 freeswitch_version: 1.6 # FreeSwitch version. Becareful, only tested with 1.6 version for the time being
 
+freeswitch_symlinks: True # default FS layout in /usr/local/freeswitch by creating symlinks
 freeswitch_conf_dir: '/etc/freeswitch' # Configuration directory
 freeswitch_install_conf: True # Allow the installation of the configuration files - Could be disabled when updating
 freeswitch_daemon_args: -nc -nonat
@@ -78,6 +79,10 @@ freeswitch_packages:
     - freeswitch-meta-all
     - freeswitch-all-dbg
     - gdb
+
+# FreeSwitch config
+freeswitch_log_mapping: <map name="err" value="debug,info,notice,warning,err,crit,alert"/>
+freeswitch_log_max_rotate: <!-- <param name="maximum-rotate" value="32"/> -->
 
 # Fail2ban
 fail2ban_install: False
