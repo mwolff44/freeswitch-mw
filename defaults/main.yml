@@ -1,7 +1,7 @@
 ---
 
 # version
-freeswitch_version: "2.1"
+freeswitch-mw_version: "2.2"
 
 # base packages
 basepackages_install: True
