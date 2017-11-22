@@ -73,28 +73,20 @@
   apt: name={{ item }} state=latest
   with_items: "{{ freeswitch_packages }}"
 
-- name: Backup FreeSwitch configuration files.
-  copy:
-    src: "{{ freeswitch_conf_dir }}"
-    dest: "{{ freeswitch_conf_backup_dir }}"
-  when : freeswitch_install_conf
-
 - name: Copy FreeSwitch configuration files.
-  copy:
-    src: "{{ freeswitch_config_template_dir }}"
-    dest: "{{ freeswitch_conf_dir }}"
+  template:
+    src: "{{ freeswitch_config_template_dir }}/{{ item }}.j2"
+    dest: "{{ freeswitch_conf_dir }}/{{ item }}"
+    backup: yes
+  with_items: "{{ freeswitch_config_list }}"
   when: freeswitch_install_conf
 
-- name: Backup FreeSwitch script files.
-  copy:
-    src: "{{ freeswitch_script_dir }}"
-    dest: "{{ freeswitch_script_backup_dir }}"
-  when : freeswitch_install_script
-
 - name: Copy FreeSwitch script files.
-  copy:
-    src: "{{ freeswitch_script_template_dir }}"
-    dest: "{{ freeswitch_script_dir }}"
+  template:
+    src: "{{ freeswitch_script_template_dir }}/{{ item }}"
+    dest: "{{ freeswitch_script_dir }}/{{ item }}"
+    backup: yes
+  with_items: "{{ freeswitch_script_list }}"
   when: freeswitch_install_script
 
 - name: Make sure FreeSwitch is started and configure it to run at boot.

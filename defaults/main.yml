@@ -56,13 +56,19 @@ freeswitch_version: 1.6 # FreeSwitch version. Becareful, only tested with 1.6 ve
 
 freeswitch_conf_dir: '/etc/freeswitch' # Configuration directory
 freeswitch_install_conf: True # Allow the installation of the configuration files - Could be disabled when updating
+freeswitch_daemon_args: -nc -nonat
 freeswitch_conf_backup_dir: '/etc/freeswitch.orig' # Backup configuration directory
 freeswitch_config_template_dir: ../templates/freeswitch/config/ # Templates directory used for FreeSwitch configuration
+freeswitch_config_list: # List of templates config files without ending ".j2"
 
 freeswitch_install_script: True # Allow the installation of the script files - Could be disabled when updating
 freeswitch_script_dir: '/usr/share/freeswitch/scripts' # Script directory
 freeswitch_script_backup_dir: '/usr/share/freeswitch/scripts.orig' # Backup cscript directory
-freeswitch_script_template_dir: ../templates/freeswitch/scripts/ # Templates directory used for FreeSwitch script
+freeswitch_script_template_dir: ../templates/freeswitch/scripts # Templates directory used for FreeSwitch script
+freeswitch_script_list: # List of templates script files without ending ".j2"
+    - logfile.conf.xml
+    - modules.conf.xml
+    - switch.conf.xml
 
 freeswitch_g729_install: False
 freeswitch_reload: False

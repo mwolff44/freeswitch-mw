@@ -7,22 +7,22 @@
     <profile name="default">
       <settings>
         <!-- File to log to -->
-	      <param name="logfile" value="/var/log/freeswitch.log"/>
+        <param name="logfile" value="/var/log/freeswitch.log"/>
         <!-- At this length in bytes rotate the log file (0 for never) -->
         <param name="rollover" value="0"/>
-		<!-- Maximum number of log files to keep before wrapping -->
-		<!-- If this parameter is enabled, the log filenames will not include a date stamp -->
-		<!-- <param name="maximum-rotate" value="32"/> -->
+        <!-- Maximum number of log files to keep before wrapping -->
+        <!-- If this parameter is enabled, the log filenames will not include a date stamp -->
+        {{ freeswitch_log_max_rotate }}
         <!-- Prefix all log lines by the session's uuid  -->
         <param name="uuid" value="true" />
       </settings>
       <mappings>
-	<!--
-	     name can be a file name, function name or 'all'
-	     value is one or more of debug,info,notice,warning,err,crit,alert,all
-	     Please see comments in console.conf.xml for more information
-	-->
-	      <map name="err" value="debug,info,notice,warning,err,crit,alert"/>
+    <!--
+         name can be a file name, function name or 'all'
+         value is one or more of debug,info,notice,warning,err,crit,alert,all
+         Please see comments in console.conf.xml for more information
+    -->
+          {{ freeswitch_log_mapping }}
       </mappings>
     </profile>
   </profiles>
