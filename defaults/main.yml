@@ -83,6 +83,14 @@ freeswitch_packages:
 # FreeSwitch config
 freeswitch_log_mapping: <map name="err" value="debug,info,notice,warning,err,crit,alert"/>
 freeswitch_log_max_rotate: <!-- <param name="maximum-rotate" value="32"/> -->
+freeswitch_max_db_handles: 50 # Maximum number of simultaneous DB handles open
+freeswitch_db_handle_timeout: 10 # Maximum number of seconds to wait for a new DB handle before failing
+freeswitch_min_idle_cpu: 25 # Minimum idle CPU before refusing calls
+freeswitch_max_sessions: 1000 # Max number of sessions to allow at any given time
+freeswitch_sessions_per_second: 30 # Most channels to create per second
+freeswitch_global_loglevel: debug # Default Global Log Level - value is one of debug,info,notice,warning,err,crit,alert
+freeswitch_rtp_start_port: 16384
+freeswitch_rtp_end_port: 32768
 
 # Fail2ban
 fail2ban_install: False
