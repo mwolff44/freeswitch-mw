@@ -1,6 +1,10 @@
 Changelog
 =========
 
+v2.3
+----
+- Install and configure ODBC
+
 v2.2
 -----
 - Script install management for freeswitch

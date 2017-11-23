@@ -31,7 +31,21 @@ The role variables and default values.
     freeswitch_symlinks: True # default FS layout in /usr/local/freeswitch by creating symlinks
     freeswitch_install_conf: True # Allow the installation of the configuration files - Could be disabled when updating
     freeswitch_conf_backup_dir: '/etc/freeswitch.orig' # Backup configuration directory
-    freeswitch_config_template_dir: ../templates/freeswitch/config/ # Templates directory used for FreeSwitch configuration
+    freeswitch_config_template_dir: ../templates/freeswitch/config # Templates directory used for FreeSwitch configuration
+    freeswitch_config_list: # List of templates config files without ending ".j2"
+        - autoload_configs/console.conf.xml
+        - autoload_configs/logfile.conf.xml
+        - autoload_configs/modules.conf.xml
+        - autoload_configs/switch.conf.xml
+        - autoload_configs/syslog.conf.xml
+
+    freeswitch_install_script: True # Allow the installation of the script files - Could be disabled when updating
+    freeswitch_script_dir: '/usr/share/freeswitch/scripts' # Script directory
+    freeswitch_script_backup_dir: '/usr/share/freeswitch/scripts.orig' # Backup cscript directory
+    freeswitch_script_template_dir: ../templates/freeswitch/scripts # Templates directory used for FreeSwitch script
+    freeswitch_script_list: # List of templates script files without ending ".j2"
+        - test.lua
+
     freeswitch_packages: # FreeSwitch packages to be installed
         - freeswitch-meta-all
         - freeswitch-all-dbg
@@ -50,6 +64,26 @@ The role variables and default values.
     freeswitch_global_loglevel: debug # Default Global Log Level - value is one of debug,info,notice,warning,err,crit,alert
     freeswitch_rtp_start_port: 16384
     freeswitch_rtp_end_port: 32768
+
+### ODBC
+
+
+    odbc_install: false
+    odbc_packages_install: false
+    odbc_packages:
+        - unixodbc-bin
+        - unixodbc-dev
+    odbc_postgresql_install: false
+    odbc_postgresql_packages:
+        - odbc-postgresql
+    postgresql_packages_install: false
+    odbc_template_dir: ../templates/odbc # Templates directory used for ODBC
+    odbc_server: 127.0.0.1
+    odbc_port: 5432
+    odbc_database: 'mydatabase'
+    odbc_user: 'myuser'
+    odbc_password: 'mypass'
+    odbc_tracefile: '/tmp/psqlodbc.log'
 
 ### Fail2ban
 

@@ -1,0 +1,24 @@
+---
+# Install odbc packages
+- name: Install odbc packages
+  apt: name={{ item }} state=latest
+  with_items: "{{ odbc_packages }}"
+  when: odbc_packages_install
+
+# Install postgresl for ODBC
+- name: Install postgresql ODBC client
+  apt: name={{ item }} state=latest
+  with_items: "{{ odbc_postgresql_packages }}"
+  when: odbc_postgresql_install
+
+# Configure ODBC
+- name: Configure ODBC
+  template:
+    src: '../templates/odbc/odbc.ini.j2'
+    dest: "/etc/odbc.ini"
+    owner: 'root'
+
+- template:
+    src: '../templates/odbc/odbcinst.ini.j2'
+    dest: "/etc/odbcinst.ini"
+    owner: 'root'

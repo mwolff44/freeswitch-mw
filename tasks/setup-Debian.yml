@@ -12,6 +12,11 @@
   include: upgrade_kernel4_jessie.yml
   when: upgrade_kernel
 
+# Install and configure ODBC
+- name: Install and configure odbc
+  include: odbc.yml
+  when: odbc_install
+
 # Freeswitch repo
 - name: Add FreeSwitch Repo Signing key
   apt_key: url=https://files.freeswitch.org/repo/deb/debian/freeswitch_archive_g0.pub state=present
@@ -122,20 +127,25 @@
 - name: Create symlinks like default FS install documention
   file:
     src: '{{ item.src }}'
-    dest: '/usr/local/freeswitch/{{ item.dst }}'
+    dest: '/usr/local/freeswitch/{{ item.dest }}'
+    force: '{{ item.force }}'
     state: 'link'
   with_items:
-    - { src: '/usr/bin/freeswitch', dest: 'bin/' }
-    - { src: '/usr/bin/fs_*', dest: 'bin/' }
-    - { src: '/usr/bin/fsxs', dest: 'bin/' }
-    - { src: '/usr/bin/tone2wav', dest: 'bin/' }
-    - { src: '/usr/bin/gentls_cert', dest: 'bin/' }
-    - { src: '/etc/freeswitch', dest: 'conf' }
-    - { src: '/var/lib/freeswitch/*', dest: '' }
-    - { src: '/var/log/freeswitch', dest: 'log' }
-    - { src: '/var/run/freeswitch', dest: 'run' }
-    - { src: '/etc/freeswitch/tls', dest: 'certs' }
-    - { src: '/usr/lib/freeswitch/mod', dest: '' }
+    - { src: '/usr/bin/freeswitch', dest: 'bin/freeswitch', force: no }
+    - { src: '/usr/bin/fs_cli', dest: 'bin/fs_cli', force: no }
+    - { src: '/usr/bin/fs_encode', dest: 'bin/fs_encode', force: no }
+    - { src: '/usr/bin/fs_ivrd', dest: 'bin/fs_ivrd', force: no }
+    - { src: '/usr/bin/fsxs', dest: 'bin/fsxs', force: no }
+    - { src: '/usr/bin/tone2wav', dest: 'bin/tone2wave', force: no }
+    - { src: '/usr/bin/gentls_cert', dest: 'bin/gentls_cert', force: no }
+    - { src: '/etc/freeswitch', dest: 'conf', force: no }
+    - { src: '/var/lib/freeswitch/db', dest: 'db', force: no }
+    - { src: '/var/lib/freeswitch/images', dest: 'images', force: no }
+    - { src: '/var/lib/freeswitch/recordings', dest: 'recordings', force: no }
+    - { src: '/var/lib/freeswitch/storage', dest: 'storage', force: no }
+    - { src: '/var/log/freeswitch', dest: 'log', force: no }
+    - { src: '/var/run/freeswitch', dest: 'run', force: no }
+    - { src: '/etc/freeswitch/tls', dest: 'certs', force: no }
   when: freeswitch_symlinks
 
 # g729

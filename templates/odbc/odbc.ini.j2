@@ -1,0 +1,16 @@
+[freeswitch]
+Driver = PostgreSQL
+Description = Connection to POSTGRESQL
+Servername = {{ odbc_server }}
+Port = {{ odbc_port }}
+Username = {{ odbc_user }}
+Password = {{ odbc_password }}
+Database = {{ odbc_database }}
+Trace               = No
+TraceFile           = {{ odbc_tracefile }}
+ReadOnly            = Yes
+RowVersioning       = No
+ShowSystemTables    = No
+ShowOidColumn       = No
+FakeOidIndex        = No
+ConnSettings        =
