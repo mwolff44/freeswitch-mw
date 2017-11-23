@@ -1,7 +1,7 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-Vagrant.configure(2) do |config|
+Vagrant.configure("2") do |config|
 
   config.vm.box = "debian/jessie64"
 
@@ -27,7 +27,7 @@ Vagrant.configure(2) do |config|
   #  ansible.playbook = "tests/build.yml"
   #end
 
-  config.vm.synced_folder ".", "/usr/local/src"
+  config.vm.synced_folder ".", "/usr/local/src/freeswitch-mw"
 
   # config.ssh.username = "vagrant"
   # config.ssh.password = "vagrant"
