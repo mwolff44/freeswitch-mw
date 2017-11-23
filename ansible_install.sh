@@ -68,7 +68,7 @@ DISTRO_CHECK=$(lsb_release -c |sed -e s/Codename://g |sed -r 's/\s+//g')
 if [ $DISTRO_CHECK == $DISTRO ]; then 
     echo "Ansible installation from Ansible packages"
 
-    echo "deb http://ppa.launchpad.net/ansible/ansible/ubuntu trusty main" > /etc/apt/sources.list
+    echo "deb http://ppa.launchpad.net/ansible/ansible/ubuntu trusty main" > /etc/apt/sources.list.d/ansible.list
     apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 93C4A3FD7BB9C367 -y
     apt-get update && apt-get install -y ansible
     ansible --version
