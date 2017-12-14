@@ -1,6 +1,10 @@
 Changelog
 =========
 
+v2.5
+----
+- Check to be sure FS script directory exists, if not create it
+
 v2.4
 ----
 - Bug when script template is used (template extension must be .j2)

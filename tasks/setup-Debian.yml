@@ -88,7 +88,7 @@
 
 - name: Make sure FS script dir exists
   file:
-    path: '{{ freeswitch_script_template_dir }}'
+    path: '{{ freeswitch_script_dir }}'
     state: 'directory'
     owner: 'root'
     group: 'root'
