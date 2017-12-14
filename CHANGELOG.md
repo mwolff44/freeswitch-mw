@@ -1,6 +1,12 @@
 Changelog
 =========
 
+v2.4
+----
+- Bug when script template is used (template extension must be .j2)
+- Correction of README about template files
+- Correction of default's values with correct extension ".j2"
+
 v2.3
 ----
 - Install and configure ODBC

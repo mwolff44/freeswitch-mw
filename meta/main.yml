@@ -13,5 +13,6 @@ galaxy_info:
   - system
   - voip
   - freeswitch
+  - debian
 
 dependencies: []

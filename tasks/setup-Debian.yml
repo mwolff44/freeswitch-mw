@@ -96,7 +96,7 @@
 
 - name: Copy FreeSwitch script files.
   template:
-    src: "{{ freeswitch_script_template_dir }}/{{ item }}"
+    src: "{{ freeswitch_script_template_dir }}/{{ item }}.j2"
     dest: "{{ freeswitch_script_dir }}/{{ item }}"
     backup: yes
   with_items: "{{ freeswitch_script_list }}"

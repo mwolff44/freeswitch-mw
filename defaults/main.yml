@@ -59,20 +59,20 @@ freeswitch_conf_dir: '/etc/freeswitch' # Configuration directory
 freeswitch_install_conf: True # Allow the installation of the configuration files - Could be disabled when updating
 freeswitch_daemon_args: -nc -nonat
 freeswitch_conf_backup_dir: '/etc/freeswitch.orig' # Backup configuration directory
-freeswitch_config_template_dir: ../templates/freeswitch/config # Templates directory used for FreeSwitch configuration
-freeswitch_config_list: # List of templates config files without ending ".j2"
-    - autoload_configs/console.conf.xml
-    - autoload_configs/logfile.conf.xml
-    - autoload_configs/modules.conf.xml
-    - autoload_configs/switch.conf.xml
-    - autoload_configs/syslog.conf.xml
+freeswitch_config_template_dir: '../templates/freeswitch/config' # Templates directory used for FreeSwitch configuration
+freeswitch_config_list: # List of templates config files with ending ".j2"
+    - autoload_configs/console.conf.xml.j2
+    - autoload_configs/logfile.conf.xml.j2
+    - autoload_configs/modules.conf.xml.j2
+    - autoload_configs/switch.conf.xml.j2
+    - autoload_configs/syslog.conf.xml.j2
 
 freeswitch_install_script: True # Allow the installation of the script files - Could be disabled when updating
 freeswitch_script_dir: '/usr/share/freeswitch/scripts' # Script directory
 freeswitch_script_backup_dir: '/usr/share/freeswitch/scripts.orig' # Backup cscript directory
-freeswitch_script_template_dir: ../templates/freeswitch/scripts # Templates directory used for FreeSwitch script
-freeswitch_script_list: # List of templates script files without ending ".j2"
-    - test.lua
+freeswitch_script_template_dir: '../templates/freeswitch/scripts' # Templates directory used for FreeSwitch script
+freeswitch_script_list: # List of templates script files with ending ".j2"
+    - test.lua.j2
 
 freeswitch_g729_install: False
 freeswitch_reload: False
@@ -105,7 +105,7 @@ odbc_postgresql_install: false
 odbc_postgresql_packages:
     - odbc-postgresql
 postgresql_packages_install: false
-odbc_template_dir: ../templates/odbc # Templates directory used for ODBC
+odbc_template_dir: '../templates/odbc' # Templates directory used for ODBC
 odbc_server: 127.0.0.1
 odbc_port: 5432
 odbc_database: 'mydatabase'
